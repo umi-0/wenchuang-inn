@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>素材展示 · 文创客栈</title>
+<style>
+  :root { --blue:#1B2A4A; --red:#C41E3A; --cream:#FDF8F0; --white:#fff; --text:#2D2D2D; --text-secondary:#5A5A5A; --border:#E0D5C5; --gold:#C9A96E; --radius:12px; --shadow:0 2px 12px rgba(27,42,74,0.06); }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--cream);color:var(--text);line-height:1.7;}
+  .topbar{position:sticky;top:0;z-index:100;background:var(--blue);color:#fff;padding:12px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+  .topbar a{color:#fff;text-decoration:none;font-weight:600;}
+  .topbar a:hover{opacity:0.8;}
+  .container{max-width:1100px;margin:0 auto;padding:24px 20px;}
+  h1{font-size:1.8rem;color:var(--blue);margin-bottom:4px;}
+  h2{font-size:1.3rem;color:var(--blue);margin:24px 0 12px;padding-bottom:6px;border-bottom:2px solid var(--border);}
+
+  .tab-nav{display:flex;gap:4px;margin-bottom:20px;flex-wrap:wrap;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  .tab-nav button{padding:8px 14px;border:none;background:var(--white);border-radius:20px;cursor:pointer;font-size:0.85rem;font-weight:500;color:var(--text-secondary);transition:all 0.2s;border:1px solid var(--border);white-space:nowrap;flex-shrink:0;}
+  .tab-nav button:hover{color:var(--blue);border-color:var(--blue);}
+  .tab-nav button.active{background:var(--blue);color:#fff;border-color:var(--blue);}
+  .tab-content{display:none;}
+  .tab-content.active{display:block;}
+
+  .gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;}
+  .gallery-card{background:var(--white);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:transform 0.2s;}
+  .gallery-card:hover{transform:translateY(-3px);}
+  .gallery-card img{width:100%;height:180px;object-fit:cover;background:#f0ece0;}
+  .gallery-card .body{padding:14px 18px;}
+  .gallery-card h3{font-size:0.95rem;color:var(--blue);margin-bottom:4px;}
+  .gallery-card p{font-size:0.82rem;color:var(--text-secondary);}
+
+  .placeholder{background:#E8E0D0;border-radius:var(--radius);padding:50px 16px;text-align:center;color:var(--text-secondary);}
+  .placeholder .icon{font-size:2.5rem;margin-bottom:8px;}
+
+  /* 视频区域 */
+  .case-layout{display:grid;grid-template-columns:1fr 320px;gap:16px;}
+  @media(max-width:900px){.case-layout{grid-template-columns:1fr;}
+    .list-panel{flex-direction:row;flex-wrap:wrap;gap:6px;}
+    .list-panel h3{width:100%;}
+    .list-item{flex:1;min-width:140px;}
+  }
+  .player-panel{background:var(--white);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);}
+  .player-wrap{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;background:#000;}
+  .player-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;}
+  .player-info{padding:14px 18px;}
+  .player-info h3{font-size:1rem;color:var(--blue);}
+  .player-info p{font-size:0.85rem;color:var(--text-secondary);}
+  .player-empty{display:flex;align-items:center;justify-content:center;padding:60px 20px;text-align:center;color:var(--text-secondary);}
+  .player-empty .icon{font-size:2.5rem;margin-bottom:8px;}
+
+  .list-panel{display:flex;flex-direction:column;gap:8px;}
+  .list-panel h3{font-size:0.95rem;color:var(--blue);margin-bottom:2px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+  .list-item{background:var(--white);border:2px solid var(--border);border-radius:8px;padding:12px 14px;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:10px;}
+  .list-item:hover{border-color:var(--gold);}
+  .list-item.active{border-color:var(--blue);background:#F5F7FC;}
+  .list-item .thumb{width:40px;height:30px;border-radius:4px;background:#E8E0D0;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1rem;}
+  .list-item .info{flex:1;min-width:0;}
+  .list-item .info h4{font-size:0.85rem;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .list-item .info .src{font-size:0.72rem;color:var(--text-secondary);}
+  .list-item .play-icon{color:var(--red);font-size:0.9rem;}
+  .usage-note{background:var(--white);border-radius:var(--radius);padding:16px 20px;margin-top:20px;box-shadow:var(--shadow);font-size:0.9rem;}
+
+  .footer{text-align:center;padding:28px;color:var(--text-secondary);font-size:0.82rem;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span>🏠</span>
+  <a href="../index.html">← 返回文创客栈</a>
+  <span style="opacity:0.4;">|</span>
+  <span>素材展示</span>
+</div>
+
+<div class="container">
+  <h1>🎨 素材展示</h1>
+  <p style="color:var(--text-secondary);margin-bottom:4px;">浏览优秀案例、学院建筑、学科符号、配色方案、字体推荐。视频可直接播放。</p>
+
+  <div class="tab-nav">
+    <button class="active" onclick="switchTab('cases')">💡 优秀案例</button>
+    <button onclick="switchTab('photos')">📸 学院建筑</button>
+    <button onclick="switchTab('symbols')">⚡ 学科符号</button>
+    <button onclick="switchTab('patterns')">🏮 纹样素材</button>
+    <button onclick="switchTab('colors')">🎨 配色方案</button>
+    <button onclick="switchTab('fonts')">🔤 字体推荐</button>
+  </div>
+
+  <!-- ====== 优秀案例 ====== -->
+  <div class="tab-content active" id="tab-cases">
+    <h2>💡 优秀案例参考</h2>
+    <p style="color:var(--text-secondary);margin-bottom:16px;">点击右侧视频切换播放 · 仅供启发思路，<strong style="color:var(--red);">禁止直接复制</strong></p>
+
+    <div class="case-layout">
+      <div class="player-panel">
+        <div id="playerEmpty"><div class="player-empty"><div><div class="icon">🎬</div><p>← 点击右侧视频开始播放</p></div></div></div>
+        <div id="playerActive" style="display:none;">
+          <div class="player-wrap"><div id="videoFrame"></div></div>
+          <div class="player-info"><h3 id="videoTitle"></h3><p id="videoDesc"></p></div>
+        </div>
+      </div>
+      <div class="list-panel">
+        <h3>🎬 视频案例</h3>
+        <div id="videoList"></div>
+        <h3 style="margin-top:10px;">🖼️ 图文案例</h3>
+        <div class="list-item"><div class="thumb">🖼️</div><div class="info"><h4>简约科技风（徽章/钥匙扣）</h4><div class="src">图文案例 · 待补充</div></div></div>
+        <div class="list-item"><div class="thumb">🖼️</div><div class="info"><h4>学院复古风（帆布包/文件夹）</h4><div class="src">图文案例 · 待补充</div></div></div>
+        <div class="list-item"><div class="thumb">🖼️</div><div class="info"><h4>扁平插画风（卡套/贴纸）</h4><div class="src">图文案例 · 待补充</div></div></div>
+      </div>
+    </div>
+
+    <div class="usage-note">
+      <strong>📌 如何参考案例</strong><br>
+      ✅ 可以借鉴：配色思路、排版结构、元素搭配节奏<br>
+      ❌ 不能做：直接复制构图、改色交差、AI「临摹」案例
+    </div>
+
+    <!-- 推荐网址 -->
+    <h2 style="margin-top:28px;">🌐 推荐网址</h2>
+    <p style="color:var(--text-secondary);margin-bottom:14px;">精选设计灵感网站，拓展视野、激发创意</p>
+    <div class="gallery-grid">
+      <div class="gallery-card">
+        <div class="body">
+          <h3>Pinterest</h3>
+          <p>全球最大的图片灵感收集平台。搜索"college merch""university design"等关键词，海量文创设计参考。适合找配色、排版、风格灵感。</p>
+          <a href="https://ca.pinterest.com/" target="_blank" style="display:inline-block;margin-top:6px;color:var(--blue);font-weight:600;">→ 访问 ca.pinterest.com</a>
+        </div>
+      </div>
+      <div class="gallery-card">
+        <div class="body">
+          <h3>Sakaria</h3>
+          <p>北欧风格设计作品集，简洁、现代、高品质。适合参考极简风格和品牌化设计思路。</p>
+          <a href="https://www.sakaria.se/" target="_blank" style="display:inline-block;margin-top:6px;color:var(--blue);font-weight:600;">→ 访问 sakaria.se</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="usage-note" style="margin-top:20px;">
+      <strong>💡 使用建议</strong><br>
+      ✅ 在这些网站搜索灵感关键词，建立自己的 mood board<br>
+      ✅ 参考优秀设计的配色、排版、构图思路<br>
+      ❌ 不要直接复制他人作品——提交时需为原创设计
+    </div>
+  </div>
+
+  <!-- ====== 学院建筑 ====== -->
+  <div class="tab-content" id="tab-photos">
+    <h2>📸 学院建筑摄影</h2>
+    <p style="color:var(--text-secondary);margin-bottom:14px;">高清校园建筑照片，可作为设计背景或装饰元素</p>
+    <div class="gallery-grid">
+      <div class="gallery-card"><img src="../files/学校照片/7699d7f7cb48a208468e8b9c4563fbd7.jpg" alt="校园建筑" loading="lazy"><div class="body"><h3>校园建筑</h3><p>高清摄影 · 可直接用于设计</p></div></div>
+	      <div class="gallery-card"><img src="../files/学校照片/8906615762f67a263f86884405ae78f6.jpg" alt="校园建筑" loading="lazy"><div class="body"><h3>校园建筑</h3><p>高清摄影 · 可直接用于设计</p></div></div>
+	      <div class="gallery-card"><img src="../files/学校照片/8cbbff7376f2bc1deded2e3471ef9644.jpg" alt="校园建筑" loading="lazy"><div class="body"><h3>校园建筑</h3><p>高清摄影 · 可直接用于设计</p></div></div>
+	      <div class="gallery-card"><img src="../files/学校照片/DSC_3886.JPG" alt="校园建筑" loading="lazy"><div class="body"><h3>校园建筑</h3><p>高清摄影 · 可直接用于设计</p></div></div>
+	      <div class="gallery-card"><img src="../files/学校照片/DSC_3887.JPG" alt="校园建筑" loading="lazy"><div class="body"><h3>校园建筑</h3><p>高清摄影 · 可直接用于设计</p></div></div>
+	      <div class="gallery-card"><img src="../files/学校照片/DSC_3888.JPG" alt="校园建筑" loading="lazy"><div class="body"><h3>校园建筑</h3><p>高清摄影 · 可直接用于设计</p></div></div>
+	      <div class="gallery-card"><img src="../files/学校照片/DSC_3889.JPG" alt="校园建筑" loading="lazy"><div class="body"><h3>校园建筑</h3><p>高清摄影 · 可直接用于设计</p></div></div>
+	      <div class="gallery-card"><img src="../files/学校照片/DSC_3890.JPG" alt="校园建筑" loading="lazy"><div class="body"><h3>校园建筑</h3><p>高清摄影 · 可直接用于设计</p></div></div>
+	      <div class="gallery-card"><img src="../files/学校照片/DSC_3891.JPG" alt="校园建筑" loading="lazy"><div class="body"><h3>校园建筑</h3><p>高清摄影 · 可直接用于设计</p></div></div>
+	      <div class="gallery-card"><img src="../files/学校照片/DSC_3892.JPG" alt="校园建筑" loading="lazy"><div class="body"><h3>校园建筑</h3><p>高清摄影 · 可直接用于设计</p></div></div>
+	      <div class="gallery-card"><img src="../files/学校照片/DSC_3894.JPG" alt="校园建筑" loading="lazy"><div class="body"><h3>校园建筑</h3><p>高清摄影 · 可直接用于设计</p></div></div>
+	      <div class="gallery-card"><img src="../files/学校照片/DSC_3896.JPG" alt="校园建筑" loading="lazy"><div class="body"><h3>校园建筑</h3><p>高清摄影 · 可直接用于设计</p></div></div>
+	      <div class="gallery-card"><img src="../files/学校照片/DSC_3898.JPG" alt="校园建筑" loading="lazy"><div class="body"><h3>校园建筑</h3><p>高清摄影 · 可直接用于设计</p></div></div>
+	      <div class="gallery-card"><img src="../files/学校照片/DSC_3899.JPG" alt="校园建筑" loading="lazy"><div class="body"><h3>校园建筑</h3><p>高清摄影 · 可直接用于设计</p></div></div>
+	      <div class="gallery-card"><img src="../files/学校照片/DSC_3901.JPG" alt="校园建筑" loading="lazy"><div class="body"><h3>校园建筑</h3><p>高清摄影 · 可直接用于设计</p></div></div>
+	      <div class="gallery-card"><img src="../files/学校照片/DSC_3903.JPG" alt="校园建筑" loading="lazy"><div class="body"><h3>校园建筑</h3><p>高清摄影 · 可直接用于设计</p></div></div>
+	      <div class="gallery-card"><img src="../files/学校照片/DSC_3904.JPG" alt="校园建筑" loading="lazy"><div class="body"><h3>校园建筑</h3><p>高清摄影 · 可直接用于设计</p></div></div>
+	      <div class="gallery-card"><img src="../files/学校照片/DSC_3907.JPG" alt="校园建筑" loading="lazy"><div class="body"><h3>校园建筑</h3><p>高清摄影 · 可直接用于设计</p></div></div>
+	      <div class="gallery-card"><img src="../files/学校照片/DSC_3911.JPG" alt="校园建筑" loading="lazy"><div class="body"><h3>校园建筑</h3><p>高清摄影 · 可直接用于设计</p></div></div>
+	      <div class="gallery-card"><img src="../files/学校照片/DSC_3912.JPG" alt="校园建筑" loading="lazy"><div class="body"><h3>校园建筑</h3><p>高清摄影 · 可直接用于设计</p></div></div>
+	      <div class="gallery-card"><img src="../files/学校照片/DSC_3915.JPG" alt="校园建筑" loading="lazy"><div class="body"><h3>校园建筑</h3><p>高清摄影 · 可直接用于设计</p></div></div>
+	      <div class="gallery-card"><img src="../files/学校照片/DSC_3924.JPG" alt="校园建筑" loading="lazy"><div class="body"><h3>校园建筑</h3><p>高清摄影 · 可直接用于设计</p></div></div>
+	      <div class="gallery-card"><img src="../files/学校照片/XIE_0100.jpg" alt="校园建筑" loading="lazy"><div class="body"><h3>校园建筑</h3><p>高清摄影 · 可直接用于设计</p></div></div>
+	      <div class="gallery-card"><img src="../files/学校照片/XIE_0102.jpg" alt="校园建筑" loading="lazy"><div class="body"><h3>校园建筑</h3><p>高清摄影 · 可直接用于设计</p></div></div>
+	      <div class="gallery-card"><img src="../files/学校照片/XIE_0103.jpg" alt="校园建筑" loading="lazy"><div class="body"><h3>校园建筑</h3><p>高清摄影 · 可直接用于设计</p></div></div>
+	      <div class="gallery-card"><img src="../files/学校照片/XIE_0104.jpg" alt="校园建筑" loading="lazy"><div class="body"><h3>校园建筑</h3><p>高清摄影 · 可直接用于设计</p></div></div>
+	      <div class="gallery-card"><img src="../files/学校照片/XIE_0107.jpg" alt="校园建筑" loading="lazy"><div class="body"><h3>校园建筑</h3><p>高清摄影 · 可直接用于设计</p></div></div>
+	      <div class="gallery-card"><img src="../files/学校照片/XIE_0113.jpg" alt="校园建筑" loading="lazy"><div class="body"><h3>校园建筑</h3><p>高清摄影 · 可直接用于设计</p></div></div>
+	      <div class="gallery-card"><img src="../files/学校照片/XIE_0116.jpg" alt="校园建筑" loading="lazy"><div class="body"><h3>校园建筑</h3><p>高清摄影 · 可直接用于设计</p></div></div>
+	      <div class="gallery-card"><img src="../files/学校照片/XIE_0144.jpg" alt="校园建筑" loading="lazy"><div class="body"><h3>校园建筑</h3><p>高清摄影 · 可直接用于设计</p></div></div>
+	      <div class="gallery-card"><img src="../files/学校照片/XIE_0145.jpg" alt="校园建筑" loading="lazy"><div class="body"><h3>校园建筑</h3><p>高清摄影 · 可直接用于设计</p></div></div>
+	      <div class="gallery-card"><img src="../files/学校照片/XIE_0156.jpg" alt="校园建筑" loading="lazy"><div class="body"><h3>校园建筑</h3><p>高清摄影 · 可直接用于设计</p></div></div>
+	      <div class="gallery-card"><img src="../files/学校照片/XIE_0161.jpg" alt="校园建筑" loading="lazy"><div class="body"><h3>校园建筑</h3><p>高清摄影 · 可直接用于设计</p></div></div>
+	      <div class="gallery-card"><img src="../files/学校照片/XIE_1064.jpg" alt="校园建筑" loading="lazy"><div class="body"><h3>校园建筑</h3><p>高清摄影 · 可直接用于设计</p></div></div>
+	      <div class="gallery-card"><img src="../files/学校照片/XIE_1069.jpg" alt="校园建筑" loading="lazy"><div class="body"><h3>校园建筑</h3><p>高清摄影 · 可直接用于设计</p></div></div>
+	      <div class="gallery-card"><img src="../files/学校照片/XIE_2315.jpg" alt="校园建筑" loading="lazy"><div class="body"><h3>校园建筑</h3><p>高清摄影 · 可直接用于设计</p></div></div>
+	      <div class="gallery-card"><img src="../files/学校照片/XIE_2331.jpg" alt="校园建筑" loading="lazy"><div class="body"><h3>校园建筑</h3><p>高清摄影 · 可直接用于设计</p></div></div>
+	      <div class="gallery-card"><img src="../files/学校照片/b6efd3fec36b53606f873e3ed9a246dc.jpg" alt="校园建筑" loading="lazy"><div class="body"><h3>校园建筑</h3><p>高清摄影 · 可直接用于设计</p></div></div>
+	      <div class="gallery-card"><img src="../files/学校照片/b79a62ff76bea4f3d488c8f61414d11a.jpg" alt="校园建筑" loading="lazy"><div class="body"><h3>校园建筑</h3><p>高清摄影 · 可直接用于设计</p></div></div>
+	      <div class="gallery-card"><img src="../files/学校照片/cffa88e5e56e223a9947c0d94bb5ac32.jpg" alt="校园建筑" loading="lazy"><div class="body"><h3>校园建筑</h3><p>高清摄影 · 可直接用于设计</p></div></div>
+	      <div class="gallery-card"><img src="../files/学校照片/e26e8326c2ce379a06352f22d8e2a165.jpg" alt="校园建筑" loading="lazy"><div class="body"><h3>校园建筑</h3><p>高清摄影 · 可直接用于设计</p></div></div>
+	      <div class="gallery-card"><img src="../files/学校照片/e39832d27840bc976d2f19130f131573.jpg" alt="校园建筑" loading="lazy"><div class="body"><h3>校园建筑</h3><p>高清摄影 · 可直接用于设计</p></div></div>
+	    </div>
+  </div>
+
+  <!-- ====== 学科符号 ====== -->
+  <div class="tab-content" id="tab-symbols">
+    <h2>⚡ 学科符号矢量图</h2>
+    <p style="color:var(--text-secondary);margin-bottom:14px;">物理与光电类学科特色符号：电路图、方程、原子结构等</p>
+    <div class="gallery-grid">
+      <div class="gallery-card"><div class="placeholder"><div class="icon">⚛️</div><div>矢量图待补充</div></div><div class="body"><h3>原子结构示意图</h3><p>SVG/AI 矢量格式</p></div></div>
+      <div class="gallery-card"><div class="placeholder"><div class="icon">🔌</div><div>矢量图待补充</div></div><div class="body"><h3>电路图符号集</h3><p>电阻、电容、电感、晶体管等</p></div></div>
+      <div class="gallery-card"><div class="placeholder"><div class="icon">📐</div><div>矢量图待补充</div></div><div class="body"><h3>麦克斯韦方程组</h3><p>经典方程排版参考</p></div></div>
+    </div>
+  </div>
+
+  <!-- ====== 推荐参考资源 ====== -->
+  <div class="tab-content" id="tab-patterns">
+    <h2>🏮 推荐参考资源</h2>
+    <p style="color:var(--text-secondary);margin-bottom:4px;">精选免费可商用的纹样、纹理、设计素材网站。这些资源可作为设计中的装饰元素和灵感参考。</p>
+    <p style="color:var(--red);font-size:0.85rem;margin-bottom:18px;">💡 提示：以下网站大多提供免费可商用素材，但下载前建议确认具体文件的授权范围。纹样素材可直接拖入 PS 作为装饰图层使用。</p>
+
+    <!-- 纹样/图案资源站 -->
+    <h3 style="margin-top:4px;color:var(--blue);">🏯 纹样 & 图案资源</h3>
+    <div class="gallery-grid">
+      <div class="gallery-card">
+        <div class="body">
+          <h3>Pattern Library</h3>
+          <p>开源无缝图案合集，CSS/SVG/PNG 多格式下载，全部免费可商用。</p>
+          <a href="https://thepatternlibrary.com/" target="_blank" style="display:inline-block;margin-top:6px;color:var(--blue);font-weight:600;">→ 访问网站</a>
+        </div>
+      </div>
+      <div class="gallery-card">
+        <div class="body">
+          <h3>Subtle Patterns</h3>
+          <p>高质量细腻纹理/底纹，适合做背景。PNG 格式，免费可商用。</p>
+          <a href="https://www.toptal.com/designers/subtlepatterns/" target="_blank" style="display:inline-block;margin-top:6px;color:var(--blue);font-weight:600;">→ 访问网站</a>
+        </div>
+      </div>
+      <div class="gallery-card">
+        <div class="body">
+          <h3>Freepik — Patterns</h3>
+          <p>海量纹样、图案、装饰元素。免费用户每日有限额，注明出处即可。</p>
+          <a href="https://www.freepik.com/vectors/patterns" target="_blank" style="display:inline-block;margin-top:6px;color:var(--blue);font-weight:600;">→ 访问网站</a>
+        </div>
+      </div>
+      <div class="gallery-card">
+        <div class="body">
+          <h3>Vecteezy — Patterns</h3>
+          <p>矢量纹样和图案，AI/EPS/SVG 格式。大量免费资源，筛选"Free"即可。</p>
+          <a href="https://www.vecteezy.com/free-vector/pattern" target="_blank" style="display:inline-block;margin-top:6px;color:var(--blue);font-weight:600;">→ 访问网站</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 中国传统纹样参考 -->
+    <h3 style="margin-top:24px;color:var(--blue);">🇨🇳 中国传统纹样参考</h3>
+    <div class="gallery-grid">
+      <div class="gallery-card">
+        <div class="body">
+          <h3>故宫博物院 — 数字文物库</h3>
+          <p>高清文物图片，可参考瓷器、织绣、建筑上的真实纹样。适合找传统设计灵感。</p>
+          <a href="https://digicol.dpm.org.cn/" target="_blank" style="display:inline-block;margin-top:6px;color:var(--blue);font-weight:600;">→ 访问网站</a>
+        </div>
+      </div>
+      <div class="gallery-card">
+        <div class="body">
+          <h3>中华珍宝馆</h3>
+          <p>中国古代书画高清数字资源，可参考传统纹样、题跋排版、印章布局。</p>
+          <a href="https://www.ltfc.net/" target="_blank" style="display:inline-block;margin-top:6px;color:var(--blue);font-weight:600;">→ 访问网站</a>
+        </div>
+      </div>
+      <div class="gallery-card">
+        <div class="body">
+          <h3>中国纹样全集（豆瓣参考）</h3>
+          <p>经典参考书目，图书馆或网上可找到电子版。系统整理了历代典型纹样，适合深入了解。</p>
+          <a href="https://book.douban.com/subject/4010224/" target="_blank" style="display:inline-block;margin-top:6px;color:var(--blue);font-weight:600;">→ 查看介绍</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 纹理/底纹资源 -->
+    <h3 style="margin-top:24px;color:var(--blue);">🖼️ 纹理 & 底纹</h3>
+    <div class="gallery-grid">
+      <div class="gallery-card">
+        <div class="body">
+          <h3>Textures.com</h3>
+          <p>专业纹理素材库：纸张、布料、木纹、金属等。免费用户每日可下载 15 张。</p>
+          <a href="https://www.textures.com/" target="_blank" style="display:inline-block;margin-top:6px;color:var(--blue);font-weight:600;">→ 访问网站</a>
+        </div>
+      </div>
+      <div class="gallery-card">
+        <div class="body">
+          <h3>Transparent Textures</h3>
+          <p>透明 PNG 纹理，可直接叠加在设计上。简洁好用，适合快速出效果。</p>
+          <a href="https://www.transparenttextures.com/" target="_blank" style="display:inline-block;margin-top:6px;color:var(--blue);font-weight:600;">→ 访问网站</a>
+        </div>
+      </div>
+      <div class="gallery-card">
+        <div class="body">
+          <h3>Pexels</h3>
+          <p>免费图片+视频素材，搜索"texture""pattern"可找到大量纹理图片。全部免费可商用。</p>
+          <a href="https://www.pexels.com/zh-cn/" target="_blank" style="display:inline-block;margin-top:6px;color:var(--blue);font-weight:600;">→ 访问网站</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 图标/装饰元素 -->
+    <h3 style="margin-top:24px;color:var(--blue);">✨ 图标 & 装饰元素</h3>
+    <div class="gallery-grid">
+      <div class="gallery-card">
+        <div class="body">
+          <h3>Flaticon</h3>
+          <p>海量图标资源，搜索"border""ornament""mandala"可找到装饰图案。注意查看授权范围。</p>
+          <a href="https://www.flaticon.com/" target="_blank" style="display:inline-block;margin-top:6px;color:var(--blue);font-weight:600;">→ 访问网站</a>
+        </div>
+      </div>
+      <div class="gallery-card">
+        <div class="body">
+          <h3>SVG Repo</h3>
+          <p>免费 SVG 图标和矢量图合集，可直接拖入 AI/PS 编辑修改。</p>
+          <a href="https://www.svgrepo.com/" target="_blank" style="display:inline-block;margin-top:6px;color:var(--blue);font-weight:600;">→ 访问网站</a>
+        </div>
+      </div>
+      <div class="gallery-card">
+        <div class="body">
+          <h3>DrawKit — Illustrations</h3>
+          <p>免费矢量插画和装饰元素，风格现代。SVG/PNG 格式，可商用。</p>
+          <a href="https://www.drawkit.com/" target="_blank" style="display:inline-block;margin-top:6px;color:var(--blue);font-weight:600;">→ 访问网站</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="usage-note" style="margin-top:24px;">
+      <strong>📌 使用提醒</strong><br>
+      ✅ 以上网站大多提供免费可商用素材，适合学生设计使用<br>
+      ✅ 下载的纹样/图案可用 AI / PS 修改颜色、大小、透明度后融入设计<br>
+      ⚠️ 使用前确认具体文件的授权条款（部分网站有署名要求）<br>
+      ❌ 纹样/图案仅作为装饰辅助，不能作为设计主体直接交稿
+    </div>
+  </div>
+
+  <!-- ====== 配色方案 ====== -->
+  <div class="tab-content" id="tab-colors">
+    <h2>🎨 配色方案参考</h2>
+    <p style="color:var(--text-secondary);margin-bottom:14px;">学院主题色系 + 推荐配色组合，可直接取色</p>
+    <div class="gallery-grid">
+      <div class="gallery-card">
+        <div style="display:flex;height:100px;"><div style="flex:1;background:#1B2A4A;"></div><div style="flex:1;background:#C41E3A;"></div><div style="flex:1;background:#FDF8F0;"></div><div style="flex:1;background:#C9A96E;"></div></div>
+        <div class="body"><h3>学院主题色系</h3><p>藏蓝 + 朱红 + 米白 + 金色</p></div>
+      </div>
+      <div class="gallery-card">
+        <div style="display:flex;height:100px;"><div style="flex:1;background:#0D1B2A;"></div><div style="flex:1;background:#1B3A5C;"></div><div style="flex:1;background:#4A90D9;"></div><div style="flex:1;background:#87CEEB;"></div></div>
+        <div class="body"><h3>科技蓝渐变</h3><p>深邃→明亮，科技主题</p></div>
+      </div>
+      <div class="gallery-card">
+        <div style="display:flex;height:100px;"><div style="flex:1;background:#2D1B4A;"></div><div style="flex:1;background:#6B3FA0;"></div><div style="flex:1;background:#C9A96E;"></div><div style="flex:1;background:#FFF8E7;"></div></div>
+        <div class="body"><h3>紫金配色</h3><p>典雅高贵，徽章/纪念品</p></div>
+      </div>
+    </div>
+    <h2 style="margin-top:24px;">🌈 渐变工具</h2>
+    <div class="gallery-card" style="max-width:450px;">
+      <div class="body"><h3>Mesh Gradient</h3><p>免费在线渐变生成器，可视化调渐变，导出CSS/PNG。</p>
+      <a href="https://meshgradient.in/" target="_blank" style="display:inline-block;margin-top:10px;padding:8px 20px;background:var(--blue);color:#fff;border-radius:20px;text-decoration:none;font-weight:600;">→ 打开 meshgradient.in</a></div>
+    </div>
+  </div>
+
+  <!-- ====== 字体 ====== -->
+  <div class="tab-content" id="tab-fonts">
+    <h2>🔤 字体推荐</h2>
+    <p style="color:var(--text-secondary);margin-bottom:14px;">免费可商用字体，附下载链接</p>
+    <div class="gallery-grid">
+      <div class="gallery-card"><div class="body"><h3>思源黑体</h3><p>Adobe + Google 联合出品，7种字重，免费可商用。</p><a href="https://github.com/adobe-fonts/source-han-sans" target="_blank" style="color:var(--blue);">→ 下载</a></div></div>
+      <div class="gallery-card"><div class="body"><h3>思源宋体</h3><p>传统/文化感标题首选，免费可商用。</p><a href="https://github.com/adobe-fonts/source-han-serif" target="_blank" style="color:var(--blue);">→ 下载</a></div></div>
+      <div class="gallery-card"><div class="body"><h3>阿里巴巴普惠体</h3><p>阿里出品，现代简洁，免费商用。</p><a href="https://alibabafont.taobao.com/" target="_blank" style="color:var(--blue);">→ 下载</a></div></div>
+      <div class="gallery-card"><div class="body"><h3>站酷字体系列</h3><p>快乐体、文艺体等，风格多样。</p><a href="https://www.zcool.com.cn/special/zcoolfonts/" target="_blank" style="color:var(--blue);">→ 下载</a></div></div>
+    </div>
+    <p style="margin-top:14px;color:var(--text-secondary);">更多字体：<a href="https://www.100font.com/" target="_blank">100font.com</a></p>
+  </div>
+
+</div>
+
+<div class="footer">© 2026 文创客栈 · 素材持续更新中</div>
+
+<script>
+// ====== Tab 切换 ======
+function switchTab(name) {
+  document.querySelectorAll('.tab-nav button').forEach(function(b){b.classList.remove('active');});
+  document.querySelectorAll('.tab-content').forEach(function(c){c.classList.remove('active');});
+  var tab = document.getElementById('tab-' + name);
+  if(tab) tab.classList.add('active');
+  // 高亮对应按钮
+  var btns = document.querySelectorAll('.tab-nav button');
+  btns.forEach(function(b){
+    if (b.textContent.indexOf(getTabLabel(name)) !== -1) b.classList.add('active');
+  });
+  if (event && event.target) event.target.classList.add('active');
+  // 更新 URL hash
+  if (window.location.hash !== '#' + name) {
+    history.replaceState(null, '', '#' + name);
+  }
+}
+function getTabLabel(name) {
+  var m = {cases:'优秀案例',photos:'学院建筑',symbols:'学科符号',patterns:'纹样素材',colors:'配色方案',fonts:'字体推荐'};
+  return m[name] || '';
+}
+// 页面加载时根据 URL hash 自动切换 Tab
+(function(){
+  var hash = window.location.hash.replace('#','');
+  if (hash) switchTab(hash);
+})();
+
+// ====== 视频数据（管理员在此添加/修改） ======
+var videos = [
+  {id:'v1',title:'怎样从专业设计作品里“偷师”？',desc:'',src:'douyin',vid:'7652235232044748083',thumb:'🎬'},
+  {id:'v2',title:'发一下最近的设计',desc:'设计素材参考',src:'bilibili',vid:'BV1ei43zrEYv',thumb:'🎬'},
+  {id:'c4',title:'瞟一眼就能搞懂的平面构成思路',desc:'',src:'douyin',vid:'7649581316933505192',thumb:'👀'},
+  {id:'c5',title:'阿冲设计便签',desc:'',src:'douyin',vid:'7630450744433763241',thumb:'🎬'},
+  {id:'c6',title:'素材网站参考',desc:'',src:'douyin',vid:'7630404642900189353',thumb:'🎬'},
+  {id:'c4',title:'十个排版小技巧',desc:'',src:'douyin',vid:'7646057818333171950',thumb:'🎬'},
+  {id:'c4',title:'一字六做拿捏设计',desc:'',src:'douyin',vid:'7638992747383565497',thumb:'🎬'},
+  {id:'c4',title:'阿陈玩设计 分享纯文字排版',desc:'',src:'douyin',vid:'7638992747383565497',thumb:'🎬'},
+  {id:'c4',title:'平面是怎么表示空间的',desc:'',src:'douyin',vid:'7642549310734798107',thumb:'🎬'},
+  {id:'c4',title:'阿陈玩设计 设计组合',desc:'',src:'douyin',vid:'7642549310734798107',thumb:'🎬'},
+  {id:'c4',title:'如何设定字号比例',desc:'',src:'douyin',vid:'7642549310734798107',thumb:'🎬'}
+  // 添加新视频：{id:'v4',title:'标题',desc:'描述',src:'bilibili',vid:'BVxxxxxx',thumb:'🎬'},
+
+];
+
+// ====== 渲染视频列表 ======
+function renderList(){
+  var list=document.getElementById('videoList');
+  list.innerHTML=videos.map(function(v){
+    return '<div class="list-item" onclick="playVideo(\''+v.id+'\')" id="item-'+v.id+'">'+
+      '<div class="thumb">'+(v.thumb||'🎬')+'</div>'+
+      '<div class="info"><h4>'+v.title+'</h4><div class="src">'+(v.src==='bilibili'?'B站':'抖音')+' · '+v.desc+'</div></div>'+
+      '<div class="play-icon">▶</div></div>';
+  }).join('');
+}
+
+function playVideo(id){
+  var v=videos.find(function(x){return x.id===id;});
+  if(!v)return;
+  document.querySelectorAll('.list-item').forEach(function(e){e.classList.remove('active');});
+  var item=document.getElementById('item-'+id);if(item)item.classList.add('active');
+  document.getElementById('playerEmpty').style.display='none';
+  document.getElementById('playerActive').style.display='block';
+  document.getElementById('videoTitle').textContent=v.title;
+  document.getElementById('videoDesc').textContent=v.desc;
+  var fd=document.getElementById('videoFrame');
+  if(v.src==='bilibili')fd.innerHTML='<iframe src="https://player.bilibili.com/player.html?bvid='+v.vid+'&page=1&autoplay=1" allowfullscreen></iframe>';
+  else if(v.src==='douyin')fd.innerHTML='<div style="padding:40px;text-align:center;cursor:pointer;" onclick="window.open(\'https://www.douyin.com/video/'+v.vid+'\',\'_blank\')"><div style="font-size:3rem;margin-bottom:12px;">📱</div><p style="font-size:1.1rem;font-weight:600;margin-bottom:8px;">抖音视频</p><p style="color:#888;margin-bottom:16px;">抖音暂不支持网页嵌入播放</p><span style="display:inline-block;padding:12px 28px;background:var(--red);color:#fff;border-radius:24px;font-weight:600;">▶ 点击跳转抖音观看</span></div>';
+}
+
+renderList();
+</script>
+</body>
+</html>

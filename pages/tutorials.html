@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>教程视频 · 文创客栈</title>
+<style>
+  :root { --blue:#1B2A4A; --red:#C41E3A; --cream:#FDF8F0; --white:#fff; --text:#2D2D2D; --text-secondary:#5A5A5A; --border:#E0D5C5; --gold:#C9A96E; --radius:12px; --shadow:0 2px 12px rgba(27,42,74,0.06); }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--cream);color:var(--text);line-height:1.7;}
+  .topbar{position:sticky;top:0;z-index:100;background:var(--blue);color:#fff;padding:12px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+  .topbar a{color:#fff;text-decoration:none;font-weight:600;}
+  .topbar a:hover{opacity:0.8;}
+  .container{max-width:1100px;margin:0 auto;padding:24px 20px;}
+  h1{font-size:1.8rem;color:var(--blue);margin-bottom:4px;}
+  h2{font-size:1.2rem;color:var(--blue);margin:24px 0 12px;padding-bottom:6px;border-bottom:2px solid var(--border);}
+
+  .tab-nav{display:flex;gap:4px;margin-bottom:20px;flex-wrap:wrap;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  .tab-nav button{padding:8px 14px;border:none;background:var(--white);border-radius:20px;cursor:pointer;font-size:0.85rem;font-weight:500;color:var(--text-secondary);transition:all 0.2s;border:1px solid var(--border);white-space:nowrap;flex-shrink:0;}
+  .tab-nav button:hover{color:var(--blue);border-color:var(--blue);}
+  .tab-nav button.active{background:var(--blue);color:#fff;border-color:var(--blue);}
+  .tab-content{display:none;}
+  .tab-content.active{display:block;}
+
+  .case-layout{display:grid;grid-template-columns:1fr 320px;gap:16px;}
+  @media(max-width:900px){.case-layout{grid-template-columns:1fr;}
+    .list-panel{flex-direction:row;flex-wrap:wrap;gap:4px;}
+    .list-panel h3{width:100%;font-size:0.85rem;margin-bottom:0;padding-bottom:4px;}
+    .list-item{flex:1 1 auto;min-width:130px;padding:7px 8px;gap:5px;border-width:1px;border-radius:6px;}
+    .list-item .thumb{width:26px;height:20px;border-radius:3px;font-size:0.75rem;}
+    .list-item .info h4{font-size:0.76rem;}
+    .list-item .info .src{font-size:0.66rem;}
+    .list-item .play-icon{font-size:0.7rem;}
+  }
+  .player-panel{background:var(--white);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);}
+  .player-wrap{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;background:#000;}
+  .player-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;}
+  .player-info{padding:14px 18px;}
+  .player-info h3{font-size:1rem;color:var(--blue);}
+  .player-info p{font-size:0.85rem;color:var(--text-secondary);}
+  .appendix-panel{background:linear-gradient(135deg,#F8F6F0,#FDF8F0);border-top:1px solid var(--border);padding:0;max-height:0;overflow:hidden;transition:max-height 0.45s ease,padding 0.45s ease;border-radius:0 0 var(--radius) var(--radius);}
+  .appendix-panel.open{max-height:600px;padding:18px 20px;}
+  .appendix-panel .appendix-header{display:flex;align-items:center;gap:8px;margin-bottom:12px;}
+  .appendix-panel .appendix-header .icon{font-size:1.2rem;}
+  .appendix-panel .appendix-header h4{font-size:0.95rem;color:var(--blue);margin:0;}
+  .appendix-panel .appendix-desc{font-size:0.82rem;color:var(--text-secondary);margin-bottom:14px;line-height:1.6;}
+  .appendix-panel .appendix-nav{display:flex;flex-wrap:wrap;gap:8px;}
+  .appendix-panel .appendix-nav a{display:inline-flex;align-items:center;gap:5px;padding:6px 14px;background:var(--white);border:1px solid var(--border);border-radius:20px;text-decoration:none;color:var(--blue);font-size:0.82rem;font-weight:500;transition:all 0.2s;}
+  .appendix-panel .appendix-nav a:hover{background:var(--blue);color:#fff;border-color:var(--blue);}
+  .appendix-toggle{display:inline-flex;align-items:center;gap:4px;padding:5px 12px;margin-top:10px;background:none;border:1px dashed var(--border);border-radius:16px;cursor:pointer;font-size:0.78rem;color:var(--text-secondary);transition:all 0.2s;}
+  .appendix-toggle:hover{border-color:var(--blue);color:var(--blue);}
+  .appendix-toggle .arrow{transition:transform 0.3s;display:inline-block;}
+  .appendix-toggle.open .arrow{transform:rotate(180deg);}
+  .player-empty{display:flex;align-items:center;justify-content:center;padding:60px 20px;text-align:center;color:var(--text-secondary);}
+  .player-empty .icon{font-size:2.5rem;margin-bottom:8px;}
+
+  .list-panel{display:flex;flex-direction:column;gap:8px;}
+  .list-panel h3{font-size:0.95rem;color:var(--blue);margin-bottom:2px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+  .list-item{background:var(--white);border:2px solid var(--border);border-radius:8px;padding:12px 14px;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:10px;}
+  .list-item:hover{border-color:var(--gold);}
+  .list-item.active{border-color:var(--blue);background:#F5F7FC;}
+  .list-item .thumb{width:40px;height:30px;border-radius:4px;background:#E8E0D0;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1rem;}
+  .list-item .info{flex:1;min-width:0;}
+  .list-item .info h4{font-size:0.85rem;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .list-item .info .src{font-size:0.72rem;color:var(--text-secondary);}
+  .list-item .play-icon{color:var(--red);font-size:0.9rem;}
+
+  .gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;}
+  .gallery-card{background:var(--white);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:transform 0.2s;}
+  .gallery-card:hover{transform:translateY(-3px);}
+  .gallery-card img{width:100%;height:180px;object-fit:cover;background:#f0ece0;}
+  .gallery-card .body{padding:14px 18px;}
+  .gallery-card h3{font-size:0.95rem;color:var(--blue);margin-bottom:4px;}
+  .gallery-card p{font-size:0.82rem;color:var(--text-secondary);}
+  .placeholder{background:#E8E0D0;border-radius:var(--radius);padding:50px 16px;text-align:center;color:var(--text-secondary);}
+  .placeholder .icon{font-size:2.5rem;margin-bottom:8px;}
+
+  .footer{text-align:center;padding:28px;color:var(--text-secondary);font-size:0.82rem;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span>🏠</span>
+  <a href="../index.html">← 返回文创客栈</a>
+  <span style="opacity:0.4;">|</span>
+  <span>教程视频</span>
+</div>
+
+<div class="container">
+  <h1>📖 教程视频</h1>
+  <p style="color:var(--text-secondary);margin-bottom:4px;">零基础入门到进阶，点击右侧视频开始学习</p>
+
+  <div class="tab-nav">
+    <button class="active" onclick="switchTab('ps-basics')">🔰 PS零基础</button>
+    <button onclick="switchTab('ai-design')">🤖 AI辅助设计</button>
+    <button onclick="switchTab('design-theory')">🎨 设计基础</button>
+  </div>
+
+  <!-- PS零基础 -->
+  <div class="tab-content active" id="tab-ps-basics">
+    <h2>🔰 PS 零基础入门</h2>
+    <div class="case-layout">
+      <div class="player-panel">
+        <div id="playerEmptyBasics"><div class="player-empty"><div><div class="icon">🎬</div><p>← 点击右侧视频开始播放</p></div></div></div>
+        <div id="playerActiveBasics" style="display:none;">
+          <div class="player-wrap"><div id="videoFrameBasics"></div></div>
+          <div class="player-info"><h3 id="videoTitleBasics"></h3><p id="videoDescBasics"></p><button class="appendix-toggle" id="appendixToggleBasics" style="display:none;" onclick="toggleAppendix('Basics')"><span>📋 网站导航</span><span class="arrow">▾</span></button></div>
+          <div class="appendix-panel" id="appendixBasics"></div>
+        </div>
+      </div>
+      <div class="list-panel">
+        <h3>🎬 入门教程</h3>
+        <div id="videoListBasics"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI辅助设计 -->
+  <div class="tab-content" id="tab-ai-design">
+    <h2>🤖 AI 辅助设计</h2>
+    <div class="case-layout">
+      <div class="player-panel">
+        <div id="playerEmptyAi"><div class="player-empty"><div><div class="icon">🎬</div><p>← 点击右侧视频开始播放</p></div></div></div>
+        <div id="playerActiveAi" style="display:none;">
+          <div class="player-wrap"><div id="videoFrameAi"></div></div>
+          <div class="player-info"><h3 id="videoTitleAi"></h3><p id="videoDescAi"></p></div>
+          <div class="appendix-panel" id="appendixAi"></div>
+        </div>
+      </div>
+      <div class="list-panel">
+        <h3>🎬 AI 教程</h3>
+        <div id="videoListAi"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 设计基础 -->
+  <div class="tab-content" id="tab-design-theory">
+    <h2>🎨 设计基础理论</h2>
+    <div class="case-layout">
+      <div class="player-panel">
+        <div id="playerEmptyTheory"><div class="player-empty"><div><div class="icon">🎬</div><p>← 点击右侧视频开始播放</p></div></div></div>
+        <div id="playerActiveTheory" style="display:none;">
+          <div class="player-wrap"><div id="videoFrameTheory"></div></div>
+          <div class="player-info"><h3 id="videoTitleTheory"></h3><p id="videoDescTheory"></p></div>
+          <div class="appendix-panel" id="appendixTheory"></div>
+        </div>
+      </div>
+      <div class="list-panel">
+        <h3>🎬 设计理论</h3>
+        <div id="videoListTheory"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">© 2026 文创客栈 · 教程持续更新中</div>
+
+<script>
+function switchTab(name){
+  document.querySelectorAll('.tab-nav button').forEach(function(b){b.classList.remove('active');});
+  document.querySelectorAll('.tab-content').forEach(function(c){c.classList.remove('active');});
+  var tab=document.getElementById('tab-'+name);if(tab)tab.classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ====== 视频分组（管理员在此添加/修改） ======
+var videoGroups = {
+  basics: [
+    {id:'v2',title:'【Adobe全家桶都是干嘛的？】10分钟搞懂60个Adobe软件的用处！',desc:'Adobe全家桶简介',src:'bilibili',vid:'BV1ch411m7SS',thumb:'🎬'},
+    {id:'b1',title:'PS 界面与基础操作',desc:'',src:'bilibili',vid:'BV1yT421k7SF',thumb:'🎬'},
+    {id:'t2',title:'也许你离会调色只差一个正确的调色流程',desc:'',src:'bilibili',vid:'BV15wtHzzEFt',thumb:'🎬'},
+    {id:'t3',title:'速通｜两分钟拿捏调色',desc:'',src:'bilibili',vid:'BV15wtHzzEFt',thumb:'🎬'},
+    {id:'b1',title:'PS 界面与基础操作',desc:'认识工具栏、图层面板、画布操作 · 约15分钟',src:'bilibili',vid:'BV1yT421k7SF',thumb:'🖥️'},
+    {id:'b2',title:'图层是什么？零基础理解图层',desc:'设计最核心的概念 · 约10分钟',src:'bilibili',vid:'',thumb:'📚'},
+    {id:'b3',title:'选区与抠图入门',desc:'快速选择、魔棒、钢笔工具 · 约15分钟',src:'bilibili',vid:'',thumb:'✂️'},
+    {id:'b4',title:'文字工具与排版基础',desc:'添加文字、选字体、调排版 · 约10分钟',src:'bilibili',vid:'',thumb:'🔤'},
+    {id:'b5',title:'颜色调整入门',desc:'色相/饱和度、曲线、色彩平衡 · 约10分钟',src:'bilibili',vid:'',thumb:'🎨'},
+    {id:'b6',title:'Ai设计好的印刷文件存PDF设置',desc:'',src:'douyin',vid:'7622307655571370394',thumb:'🎬'},
+    {id:'b7',title:'如何正确导出文件',desc:'JPG/PNG/PSD 导出设置 · 约5分钟',src:'bilibili',vid:'',thumb:'📤'},
+  ],
+  ai: [
+    {id:'a1',title:'AI Prompt 工程入门',desc:'怎么写提示词才能让AI生成想要的图',src:'bilibili',vid:'',thumb:'💬'},
+    {id:'a2',title:'AI 出图→PS 修改完整工作流',desc:'从AI草图到PSD成品的完整链路',src:'bilibili',vid:'',thumb:'🔄'},
+  ],
+  theory: [
+    {id:'t1',title:'调子？高长调？中短调？',desc:'',src:'douyin',vid:'7652949530610549627',thumb:'🎬'},
+    {id:'t1',title:'达芬奇教程 互补色与邻近色科普',desc:'',src:'douyin',vid:'7629760754274585892',thumb:'🎬'},
+    {id:'t2',title:'配色入门：主色/辅色/点缀色',desc:'掌握基本的配色方法',src:'bilibili',vid:'',thumb:'🌈'},
+    {id:'t3',title:'排版四原则',desc:'对齐、对比、重复、亲密性——让版面更专业',src:'bilibili',vid:'',thumb:'📐'},
+    {id:'t4',title:'9种设计风格｜从粗野到孟菲斯一次看懂',desc:'',src:'douyin',vid:'7638992747383565497',thumb:'🎬'},
+    {id:'t5',title:'文创产品设计要点',desc:'帆布袋/徽章/卡套的设计差异和注意事项',src:'bilibili',vid:'',thumb:'🛍️'},
+    {id:'t1',title:'东方配色美学',desc:'',src:'douyin',vid:'7642549310734798107',thumb:'🎬'}
+  ]
+};
+
+// ====== 渲染 + 播放 ======
+function renderGroup(groupKey, listId, playerPrefix){
+  var list=document.getElementById(listId);
+  var vids=videoGroups[groupKey]||[];
+  list.innerHTML=vids.map(function(v){
+    return '<div class="list-item" onclick="playVideo(\''+groupKey+'\',\''+v.id+'\',\''+playerPrefix+'\')" id="item-'+v.id+'">'+
+      '<div class="thumb">'+(v.thumb||'🎬')+'</div>'+
+      '<div class="info"><h4>'+v.title+'</h4><div class="src">'+(v.src==='bilibili'?'B站':'抖音')+' · '+v.desc+'</div></div>'+
+      '<div class="play-icon">▶</div></div>';
+  }).join('');
+}
+
+function playVideo(groupKey, id, prefix){
+  var vids=videoGroups[groupKey]||[];
+  var v=vids.find(function(x){return x.id===id;});if(!v)return;
+  // clear active
+  var listId=prefix.replace('Player','List'); // approximate
+  document.querySelectorAll('.list-item').forEach(function(e){e.classList.remove('active');});
+  var item=document.getElementById('item-'+id);if(item)item.classList.add('active');
+  // show player
+  var emptyEl=document.getElementById('playerEmpty'+prefix.charAt(0).toUpperCase()+prefix.slice(1));
+  var activeEl=document.getElementById('playerActive'+prefix.charAt(0).toUpperCase()+prefix.slice(1));
+  if(emptyEl)emptyEl.style.display='none';
+  if(activeEl)activeEl.style.display='block';
+  var titleEl=document.getElementById('videoTitle'+prefix.charAt(0).toUpperCase()+prefix.slice(1));
+  var descEl=document.getElementById('videoDesc'+prefix.charAt(0).toUpperCase()+prefix.slice(1));
+  var frameEl=document.getElementById('videoFrame'+prefix.charAt(0).toUpperCase()+prefix.slice(1));
+  if(titleEl)titleEl.textContent=v.title;
+  if(descEl)descEl.textContent=v.desc;
+  if(frameEl){
+    if(v.vid){
+      if(v.src==='bilibili')frameEl.innerHTML='<iframe src="https://player.bilibili.com/player.html?bvid='+v.vid+'&page=1&autoplay=1" allowfullscreen></iframe>';
+      else if(v.src==='douyin')frameEl.innerHTML='<div style="padding:40px;text-align:center;cursor:pointer;" onclick="window.open(\'https://www.douyin.com/video/'+v.vid+'\',\'_blank\')"><div style="font-size:3rem;margin-bottom:12px;">📱</div><p style="font-size:1.1rem;font-weight:600;margin-bottom:8px;">抖音视频</p><p style="color:#888;margin-bottom:16px;">抖音暂不支持网页嵌入播放</p><span style="display:inline-block;padding:12px 28px;background:var(--red);color:#fff;border-radius:24px;font-weight:600;">▶ 点击跳转抖音观看</span></div>';
+    } else {
+      frameEl.innerHTML='<div class="player-empty"><div><div class="icon">🔜</div><p>视频链接待添加<br>（管理员可编辑此视频的 vid 字段添加 B站/抖音链接）</p></div></div>';
+    }
+  }
+  // 附录面板：仅在 Adobe全家桶视频 (v2) 播放时显示
+  handleAppendix(prefix, v);
+}
+
+// ====== 附录面板逻辑 ======
+var appendixContent = ''+
+  '<div class="appendix-header"><span class="icon">📋</span><h4>网站导航 · 软仓 RuanCang.Net</h4></div>'+
+  '<div class="appendix-desc"><strong>软仓</strong>是一个集合大型专业软件的导航网站，提供 Adobe 全家桶、AutoCAD、3ds Max、CINEMA 4D、达芬奇等软件的下载与安装教程。以下是网站主要版块：</div>'+
+  '<div class="appendix-nav">'+
+    '<a href="https://www.ruancang.net/" target="_blank" title="软仓首页">🏠 软仓首页</a>'+
+    '<a href="https://www.ruancang.net/#chang-yong-ruan-jian-1" target="_blank" title="Office等常用软件">📦 常用软件</a>'+
+    '<a href="https://www.ruancang.net/#adobe-2" target="_blank" title="Adobe全家桶系列">🎨 Adobe 系列</a>'+
+    '<a href="https://www.ruancang.net/#cad-3" target="_blank" title="AutoCAD系列">📐 CAD 系列</a>'+
+    '<a href="https://www.ruancang.net/#3d-4" target="_blank" title="3ds Max / C4D等">🧊 3D 软件</a>'+
+    '<a href="https://www.ruancang.net/#yy-7" target="_blank" title="达芬奇、PR等">🎬 视频音频</a>'+
+    '<a href="https://www.ruancang.net/get-activation-code" target="_blank" title="获取激活码">🔑 激活码</a>'+
+  '</div>';
+
+function handleAppendix(prefix, video){
+  var cap=prefix.charAt(0).toUpperCase()+prefix.slice(1);
+  var panel=document.getElementById('appendix'+cap);
+  var toggle=document.getElementById('appendixToggle'+cap);
+  if(!panel)return;
+  // 仅 Adobe全家桶 (id:v2) 有附录
+  if(video && video.id==='v2'){
+    panel.innerHTML=appendixContent;
+    panel.classList.add('open');
+    if(toggle){toggle.style.display='inline-flex';toggle.classList.add('open');}
+  } else {
+    panel.classList.remove('open');
+    panel.innerHTML='';
+    if(toggle){toggle.style.display='none';toggle.classList.remove('open');}
+  }
+}
+
+function toggleAppendix(prefix){
+  var cap=prefix.charAt(0).toUpperCase()+prefix.slice(1);
+  var panel=document.getElementById('appendix'+cap);
+  var toggle=document.getElementById('appendixToggle'+cap);
+  if(!panel||!panel.classList.contains('open'))return;
+  if(panel.style.maxHeight==='0px'||panel.style.maxHeight===''){
+    panel.style.maxHeight='600px';panel.style.padding='18px 20px';
+    if(toggle)toggle.classList.add('open');
+  } else {
+    panel.style.maxHeight='0px';panel.style.padding='0';
+    if(toggle)toggle.classList.remove('open');
+  }
+}
+
+// init
+renderGroup('basics','videoListBasics','Basics');
+renderGroup('ai','videoListAi','Ai');
+renderGroup('theory','videoListTheory','Theory');
+</script>
+</body>
+</html>

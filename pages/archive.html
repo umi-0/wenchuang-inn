@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>过往设计案例 · 文创客栈</title>
+<style>
+  :root { --blue:#1B2A4A; --red:#C41E3A; --cream:#FDF8F0; --white:#fff; --text:#2D2D2D; --text-secondary:#5A5A5A; --border:#E0D5C5; --gold:#C9A96E; --radius:12px; --shadow:0 2px 12px rgba(27,42,74,0.06); --shadow-md:0 4px 20px rgba(27,42,74,0.10); }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--cream);color:var(--text);line-height:1.7;}
+
+  /* 顶部导航 */
+  .topbar{position:sticky;top:0;z-index:100;background:var(--blue);color:#fff;padding:12px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+  .topbar a{color:#fff;text-decoration:none;font-weight:600;}
+  .topbar a:hover{opacity:0.8;}
+  .container{max-width:1100px;margin:0 auto;padding:24px 20px;}
+
+  h1{font-size:1.8rem;color:var(--blue);margin-bottom:4px;}
+  h2{font-size:1.3rem;color:var(--blue);margin:24px 0 12px;padding-bottom:6px;border-bottom:2px solid var(--border);}
+
+  /* 说明横幅 */
+  .notice-banner{
+    background:linear-gradient(135deg,#FFF8F0,#FFF0E8);
+    border:2px solid var(--gold);border-radius:var(--radius);
+    padding:18px 22px;margin-bottom:24px;
+    display:flex;align-items:flex-start;gap:14px;
+  }
+  .notice-banner .icon{font-size:2rem;flex-shrink:0;}
+  .notice-banner .text{flex:1;}
+  .notice-banner h3{color:var(--blue);margin-bottom:6px;font-size:1.05rem;}
+  .notice-banner p{color:var(--text-secondary);font-size:0.88rem;line-height:1.7;}
+  .notice-banner .highlight{color:var(--red);font-weight:600;}
+
+  /* 作品网格 */
+  .gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;margin-bottom:32px;}
+  @media(max-width:680px){.gallery-grid{grid-template-columns:1fr;}}
+
+  .work-card{
+    background:var(--white);border-radius:var(--radius);
+    box-shadow:var(--shadow);overflow:hidden;
+    transition:transform 0.2s,box-shadow 0.2s;
+    display:flex;flex-direction:column;
+  }
+  .work-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);}
+
+  /* 作品预览区 */
+  .work-preview{
+    height:200px;background:linear-gradient(135deg,#E8E0D0,#F0E8D8);
+    display:flex;align-items:center;justify-content:center;
+    position:relative;overflow:hidden;
+  }
+  .work-preview .preview-icon{font-size:4rem;opacity:0.7;}
+  .work-preview .watermark{
+    position:absolute;top:10px;right:14px;
+    background:rgba(196,30,58,0.85);color:#fff;
+    padding:2px 10px;border-radius:10px;
+    font-size:0.72rem;font-weight:600;
+    letter-spacing:1px;
+  }
+
+  /* 作品信息 */
+  .work-body{padding:18px 20px;flex:1;display:flex;flex-direction:column;}
+  .work-body h3{font-size:1.05rem;color:var(--blue);margin-bottom:6px;}
+  .work-meta{
+    display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;
+    font-size:0.8rem;color:var(--text-secondary);
+  }
+  .work-meta span{
+    background:var(--cream);padding:2px 10px;border-radius:12px;
+    white-space:nowrap;
+  }
+  .work-body .desc{font-size:0.88rem;color:var(--text-secondary);line-height:1.6;margin-bottom:14px;flex:1;}
+  .work-body .file-info{
+    font-size:0.78rem;color:var(--text-muted);
+    background:#F8F5F0;padding:8px 12px;border-radius:8px;
+    margin-bottom:14px;
+  }
+
+  /* 按钮 */
+  .btn-apply{
+    display:block;width:100%;padding:10px 0;
+    background:var(--blue);color:#fff;border:none;
+    border-radius:24px;font-size:0.95rem;font-weight:600;
+    cursor:pointer;text-align:center;
+    transition:all 0.2s;
+  }
+  .btn-apply:hover{background:#2C4270;transform:translateY(-1px);}
+
+  .footer{text-align:center;padding:28px;color:var(--text-secondary);font-size:0.82rem;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span>🏠</span>
+  <a href="../index.html">← 返回文创客栈</a>
+  <span style="opacity:0.4;">|</span>
+  <span>📂 过往设计案例</span>
+</div>
+
+<div class="container">
+  <h1>📂 过往设计案例</h1>
+  <p style="color:var(--text-secondary);margin-bottom:4px;">往届学长学姐的文创设计源文件 · 仅供学习参考</p>
+
+  <!-- 重要提示 -->
+  <div class="notice-banner">
+    <div class="icon">⚠️</div>
+    <div class="text">
+      <h3>使用须知（请务必阅读）</h3>
+      <p>
+        所有源文件均为往届学长学姐授权分享的原件，<span class="highlight">仅供个人学习参考</span>。<br>
+        <span class="highlight">🚫 严禁：</span>直接复制、二次传播、上传至公共平台、用于商业用途。<br>
+        尊重原创、学习思路、做出自己的设计——这才是参考案例的意义。
+      </p>
+    </div>
+  </div>
+
+  <!-- 作品展示网格 -->
+  <div class="gallery-grid" id="worksGrid">
+    <!-- JS 动态渲染 -->
+  </div>
+
+<div class="footer">© 2026 文创客栈 · 过往设计案例仅供学习参考，禁止商用或二次传播</div>
+
+<script>
+// ====== 作品数据（管理员在此添加/修改作品） ======
+// 每个作品的 downloadUrl 填网盘分享链接，学生点击即可跳转下载
+var archiveWorks = [
+  {
+    id: 'w1',
+    title: '学院主题鼠标垫设计',
+    author: ' ',
+    year: '2024',
+    type: '鼠标垫',
+    icon: '🖱️',
+    description: '以猫猫头剪影为核心视觉，搭配学院标准色藏蓝，背景融入电路板纹样，体现理工特色。提取码2650',
+    files: ['鼠标垫 拷贝.psd', '鼠标垫.png'],
+    downloadType: '百度网盘',
+    downloadUrl: 'https://pan.baidu.com/s/1gHjO_j5F3WglTV43lVb_IA'
+  },
+  {
+    id: 'w3',
+    title: '学院卡套设计',
+    author: ' ',
+    year: '2024',
+    type: '卡套',
+    icon: '🪪',
+    description: '二款卡套设计：物理学家款、四大神兽款。',
+    files: ['物理学家 拷贝.psd', '四大神兽.psd', '效果图.jpg'],
+    downloadType: '百度网盘',
+    downloadUrl: 'https://pan.baidu.com/s/1d43u14m_JyjrUQAeUMpVvQ'
+  }
+];
+
+// ====== 渲染作品网格 ======
+function renderWorks() {
+  var grid = document.getElementById('worksGrid');
+
+  grid.innerHTML = archiveWorks.map(function(w) {
+    var dlHtml = '';
+    if (w.downloadUrl) {
+      dlHtml = '<a href="' + esc(w.downloadUrl) + '" target="_blank" rel="noopener" class="btn-apply" style="text-decoration:none;">' +
+        '📥 下载源文件（' + esc(w.downloadType || '网盘') + '）</a>';
+    } else {
+      dlHtml = '<button class="btn-apply" style="background:#8B9DC3;cursor:default;" disabled>🔜 下载链接待补充</button>';
+    }
+
+    return '<div class="work-card">' +
+      '<div class="work-preview">' +
+        '<span class="preview-icon">' + (w.icon || '📁') + '</span>' +
+        '<span class="watermark">仅限学习参考</span>' +
+      '</div>' +
+      '<div class="work-body">' +
+        '<h3>' + esc(w.title) + '</h3>' +
+        '<div class="work-meta">' +
+          '<span>👤 ' + esc(w.author) + '</span>' +
+          '<span>📅 ' + esc(w.year) + '</span>' +
+          '<span>📦 ' + esc(w.type) + '</span>' +
+        '</div>' +
+        '<p class="desc">' + esc(w.description) + '</p>' +
+        '<div class="file-info">📎 含 ' + w.files.length + ' 个文件：' + w.files.map(function(f){return esc(f);}).join('、') + '</div>' +
+        dlHtml +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+// ====== 工具函数 ======
+function esc(str) {
+  if (!str) return '';
+  var div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+// ====== 初始化 ======
+renderWorks();
+</script>
+</body>
+</html>

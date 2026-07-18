@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>官方素材包 · 文创客栈</title>
+<style>
+  :root { --blue:#1B2A4A; --red:#C41E3A; --cream:#FDF8F0; --white:#fff; --text:#2D2D2D; --text-secondary:#5A5A5A; --border:#E0D5C5; --gold:#C9A96E; --radius:12px; --shadow:0 2px 12px rgba(27,42,74,0.06); }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--cream);color:var(--text);line-height:1.7;}
+  .topbar{position:sticky;top:0;z-index:100;background:var(--blue);color:#fff;padding:12px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+  .topbar a{color:#fff;text-decoration:none;font-weight:600;}
+  .topbar a:hover{opacity:0.8;}
+  .container{max-width:960px;margin:0 auto;padding:28px 20px;}
+  h1{font-size:1.8rem;color:var(--blue);margin-bottom:4px;}
+  h2{font-size:1.2rem;color:var(--blue);margin:28px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--border);}
+  .warning{background:#FFF8F0;border:2px solid var(--gold);border-radius:var(--radius);padding:16px 20px;margin:16px 0;}
+  .warning strong{color:var(--red);}
+  .footer{text-align:center;padding:32px;color:var(--text-secondary);font-size:0.82rem;}
+
+  /* 素材卡片网格 */
+  .materials-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:18px;margin-top:4px;}
+  .material-card{background:var(--white);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:transform 0.2s,box-shadow 0.2s;display:flex;flex-direction:column;}
+  .material-card:hover{transform:translateY(-4px);box-shadow:0 6px 24px rgba(27,42,74,0.12);}
+  .material-card .preview{background:#F5F2EB;padding:24px 16px;text-align:center;min-height:160px;display:flex;align-items:center;justify-content:center;}
+  .material-card .preview img{max-width:100%;max-height:140px;object-fit:contain;}
+  .material-card .preview .fallback{font-size:3rem;display:none;}
+  .material-card .info{padding:16px 18px;flex:1;display:flex;flex-direction:column;}
+  .material-card .info h3{font-size:0.95rem;color:var(--blue);margin-bottom:4px;}
+  .material-card .info .meta{font-size:0.78rem;color:var(--text-secondary);margin-bottom:14px;}
+  .material-card .info .meta span{display:inline-block;background:#F5F2EB;padding:2px 8px;border-radius:10px;margin:2px;}
+  .material-card .btn-dl{display:block;text-align:center;padding:10px 0;background:var(--blue);color:#fff;border-radius:22px;font-weight:600;text-decoration:none;font-size:0.85rem;margin-top:auto;transition:all 0.2s;}
+  .material-card .btn-dl:hover{background:#2C4270;}
+  .material-card .btn-dl.secondary{background:var(--white);color:var(--blue);border:2px solid var(--blue);}
+  .material-card .btn-dl.secondary:hover{background:#F5F7FC;}
+
+  .rules-card{background:var(--white);border-radius:var(--radius);padding:24px 28px;box-shadow:var(--shadow);margin-top:20px;}
+  .rules-card h3{color:var(--blue);margin-bottom:8px;}
+  .rules-card p{color:var(--text-secondary);font-size:0.92rem;line-height:1.8;margin-bottom:4px;}
+
+  @media(max-width:500px){
+    .materials-grid{grid-template-columns:repeat(2,1fr);gap:10px;}
+    .material-card .preview{min-height:120px;padding:16px 8px;}
+    .material-card .preview img{max-height:100px;}
+    .material-card .info{padding:10px 12px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span>🏠</span>
+  <a href="../index.html">← 返回文创客栈</a>
+  <span style="opacity:0.4;">|</span>
+  <span>🏛️ 官方素材包</span>
+</div>
+
+<div class="container">
+  <h1>🏛️ 官方素材包</h1>
+  <p style="color:var(--text-secondary);">学院视觉标识标准文件 · 按需挑选下载</p>
+
+  <div class="warning">
+    <strong>⚠️ 重要提醒：</strong>院徽、院训等学院标识必须从本站下载官方标准版本。不得自行从网络获取——存在版本不一致、颜色偏差等风险。<strong>院徽结构、颜色不得修改。</strong>
+  </div>
+
+  <h2>🖼️ 院徽文件（点击按钮即可下载）</h2>
+  <p style="color:var(--text-secondary);margin-bottom:4px;">以下为最新版院徽标准文件，<strong>逐个展示、按需下载</strong>，用到哪个下哪个：</p>
+
+  <div class="materials-grid">
+    <!-- 院徽标准色 -->
+    <div class="material-card">
+      <div class="preview">
+        <img src="../files/logo.png" alt="院徽标准色" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+        <span class="fallback">🏛️</span>
+      </div>
+      <div class="info">
+        <h3>院徽（标准色）</h3>
+        <div class="meta"><span>PNG</span><span>高清</span><span>最新版</span></div>
+        <a href="../files/logo.png" class="btn-dl" download>📥 下载此文件</a>
+      </div>
+    </div>
+
+    <!-- 院徽 + 校名 -->
+    <div class="material-card">
+      <div class="preview">
+        <img src="../files/logo1.png" alt="院徽+校名" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+        <span class="fallback">🏛️</span>
+      </div>
+      <div class="info">
+        <h3>院徽 + 校名</h3>
+        <div class="meta"><span>PNG</span><span>高清</span><span>最新版</span></div>
+        <a href="../files/logo1.png" class="btn-dl" download>📥 下载此文件</a>
+      </div>
+    </div>
+
+    <!-- 校徽备用 -->
+    <div class="material-card">
+      <div class="preview">
+        <img src="../files/校徽.png" alt="校徽" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+        <span class="fallback">🏛️</span>
+      </div>
+      <div class="info">
+        <h3>校徽（备用版）</h3>
+        <div class="meta"><span>PNG</span><span>备用</span></div>
+        <a href="../files/校徽.png" class="btn-dl secondary" download>📥 下载此文件</a>
+      </div>
+    </div>
+
+    <!-- 校徽+校名备用 -->
+    <div class="material-card">
+      <div class="preview">
+        <img src="../files/校徽+校名.png" alt="校徽+校名" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+        <span class="fallback">🏛️</span>
+      </div>
+      <div class="info">
+        <h3>校徽+校名（备用版）</h3>
+        <div class="meta"><span>PNG</span><span>备用</span></div>
+        <a href="../files/校徽+校名.png" class="btn-dl secondary" download>📥 下载此文件</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="rules-card">
+    <h3>📐 使用规范</h3>
+    <p>1. 院徽为标准视觉标识，<strong>不得修改其结构、比例和颜色</strong>。</p>
+    <p>2. 院徽在设计中应保持清晰可辨，不被裁切、遮挡或变形。</p>
+    <p>3. 如需缩放，请等比例缩放（按住 Shift 拖拽）。</p>
+    <p>4. 院徽周围建议保留一定留白空间（不小于徽章高度的 1/4）。</p>
+    <p>5. 院训文字使用标准字文件中的字体，不得随意更换字体。</p>
+  </div>
+
+</div>
+
+<div class="footer">© 2026 文创客栈 · 官方素材仅供本次活动使用</div>
+
+</body>
+</html>

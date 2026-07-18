@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>优秀案例参考 · 文创客栈</title>
+<style>
+  :root { --blue:#1B2A4A; --red:#C41E3A; --cream:#FDF8F0; --white:#fff; --text:#2D2D2D; --text-secondary:#5A5A5A; --border:#E0D5C5; --gold:#C9A96E; --radius:12px; --shadow:0 2px 12px rgba(27,42,74,0.06); }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--cream);color:var(--text);line-height:1.7;}
+  .topbar{position:sticky;top:0;z-index:100;background:var(--blue);color:#fff;padding:12px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+  .topbar a{color:#fff;text-decoration:none;font-weight:600;}
+  .topbar a:hover{opacity:0.8;}
+  .container{max-width:1100px;margin:0 auto;padding:24px 20px;}
+  h1{font-size:1.8rem;color:var(--blue);margin-bottom:4px;}
+
+  .layout{display:grid;grid-template-columns:1fr 360px;gap:24px;margin-top:20px;}
+  @media(max-width:860px){.layout{grid-template-columns:1fr;}}
+
+  /* 视频播放区 */
+  .player-panel{background:var(--white);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);}
+  .player-wrap{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;background:#000;}
+  .player-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;}
+  .player-info{padding:16px 20px;}
+  .player-info h3{font-size:1.05rem;color:var(--blue);margin-bottom:4px;}
+  .player-info p{font-size:0.88rem;color:var(--text-secondary);}
+  .player-empty{display:flex;align-items:center;justify-content:center;padding:80px 20px;text-align:center;color:var(--text-secondary);}
+  .player-empty .icon{font-size:3rem;margin-bottom:12px;}
+
+  /* 列表区 */
+  .list-panel{display:flex;flex-direction:column;gap:10px;}
+  .list-panel h3{font-size:1rem;color:var(--blue);margin-bottom:4px;padding-bottom:8px;border-bottom:1px solid var(--border);}
+  .list-item{
+    background:var(--white);border:2px solid var(--border);border-radius:var(--radius);
+    padding:14px 16px;cursor:pointer;transition:all 0.2s;
+    display:flex;align-items:center;gap:12px;
+  }
+  .list-item:hover{border-color:var(--gold);transform:translateX(-3px);}
+  .list-item.active{border-color:var(--blue);background:#F5F7FC;}
+  .list-item .thumb{width:48px;height:36px;border-radius:6px;background:#E8E0D0;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1.2rem;}
+  .list-item .info{flex:1;min-width:0;}
+  .list-item .info h4{font-size:0.9rem;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .list-item .info .src{font-size:0.75rem;color:var(--text-secondary);}
+  .list-item .play-icon{color:var(--red);font-size:1rem;}
+
+  .usage-note{background:var(--white);border-radius:var(--radius);padding:20px 24px;margin-top:24px;box-shadow:var(--shadow);}
+  .usage-note h3{color:var(--blue);margin-bottom:12px;}
+  .usage-note ul{padding-left:20px;color:var(--text-secondary);}
+  .usage-note li{margin-bottom:6px;}
+  .footer{text-align:center;padding:32px;color:var(--text-secondary);font-size:0.85rem;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span>🏠</span>
+  <a href="../index.html">← 返回文创客栈</a>
+  <span style="opacity:0.4;">|</span>
+  <span>优秀案例参考</span>
+</div>
+
+<div class="container">
+  <h1>💡 优秀案例参考</h1>
+  <p style="color:var(--text-secondary);">点击右侧视频切换播放 · 仅供启发思路，<strong style="color:var(--red);">禁止直接复制</strong></p>
+
+  <div class="layout">
+    <!-- 左侧视频播放器 -->
+    <div class="player-panel">
+      <div id="playerArea">
+        <div class="player-empty" id="playerEmpty">
+          <div><div class="icon">🎬</div><p>← 点击右侧视频列表开始播放</p></div>
+        </div>
+        <div id="playerActive" style="display:none;">
+          <div class="player-wrap"><div id="videoFrame"></div></div>
+          <div class="player-info">
+            <h3 id="videoTitle"></h3>
+            <p id="videoDesc"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 右侧视频列表 -->
+    <div class="list-panel">
+      <h3>🎬 视频案例</h3>
+      <div id="videoList">
+        <!-- 视频列表由 JS 填充 -->
+      </div>
+      <h3 style="margin-top:12px;">🖼️ 图文案例</h3>
+      <div class="list-item" onclick="alert('图文案例详情页待补充。\n\n管理员可在 admin/index.html 中更新素材内容。')">
+        <div class="thumb">🖼️</div>
+        <div class="info"><h4>简约科技风（徽章/钥匙扣）</h4><div class="src">图文案例 · 待补充</div></div>
+      </div>
+      <div class="list-item" onclick="alert('图文案例详情页待补充。\n\n管理员可在 admin/index.html 中更新素材内容。')">
+        <div class="thumb">🖼️</div>
+        <div class="info"><h4>学院复古风（帆布包/文件夹）</h4><div class="src">图文案例 · 待补充</div></div>
+      </div>
+      <div class="list-item" onclick="alert('图文案例详情页待补充。\n\n管理员可在 admin/index.html 中更新素材内容。')">
+        <div class="thumb">🖼️</div>
+        <div class="info"><h4>扁平插画风（卡套/贴纸）</h4><div class="src">图文案例 · 待补充</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 使用指南 -->
+  <div class="usage-note">
+    <h3>📌 如何参考案例</h3>
+    <p style="color:var(--text-secondary);margin-bottom:8px;">✅ <strong>可以借鉴的：</strong>配色思路、排版结构、元素搭配节奏、不同产品尺寸感</p>
+    <p style="color:var(--red);">❌ <strong>不能做的：</strong>直接复制构图、改个颜色就当自己的交、用 AI「临摹」案例</p>
+  </div>
+</div>
+
+<div class="footer">© 2026 文创客栈 · 案例持续补充中</div>
+
+<script>
+// ====== 视频数据（管理员在此添加/修改视频） ======
+var videos = [
+  {
+    id: 'v1',
+    title: 'PS 零基础入门教程',
+    desc: 'B站教程 · 认识工具栏、图层面板、画布操作，约 15 分钟',
+    src: 'bilibili',
+    vid: 'BV1yT421k7SF',
+    thumb: '🖥️'
+  },
+    {
+      id: 'v2',                              // ← 编号顺延 v2, v3, v4...
+      title: '【Adobe全家桶都是干嘛的？】10分钟搞懂60个Adobe 软件的用处！',               // ← 改成实际标题
+      desc: 'Adobe全家桶简介',                  // ← 改成实际描述
+      src: 'bilibili',                        // ← B站写 bilibili，抖音写 douyin
+      vid: 'BV1ch411m7SS',                    // ← 改成实际视频ID
+      thumb: '🎬'                             // ← 换个emoji也行
+    },
+    {
+      id: 'v3',                              // ← 编号顺延 v2, v3, v4...
+      title: '发一下最近的设计',               // ← 改成实际标题
+      desc: '设计素材',                  // ← 改成实际描述
+      src: 'bilibili',                        // ← B站写 bilibili，抖音写 douyin
+      vid: 'BV1ei43zrEYv',                    // ← 改成实际视频ID
+      thumb: '🎬'                             // ← 换个emoji也行
+    }
+
+  // 更多视频在此添加：
+  // {
+  //   id: 'v2',
+  //   title: '视频标题',
+  //   desc: '来源 · 简短描述',
+  //   src: 'bilibili',        // 'bilibili' 或 'douyin'
+  //   vid: 'BVxxxxxx',        // B站用 bvid，抖音用视频ID
+  //   thumb: '🎬'
+  // }
+];
+
+// ====== 渲染视频列表 ======
+function renderList() {
+  var list = document.getElementById('videoList');
+  list.innerHTML = videos.map(function(v) {
+    return '<div class="list-item" onclick="playVideo(\'' + v.id + '\')" id="item-' + v.id + '">' +
+      '<div class="thumb">' + (v.thumb || '🎬') + '</div>' +
+      '<div class="info"><h4>' + v.title + '</h4><div class="src">' + (v.src === 'bilibili' ? 'B站' : '抖音') + ' · ' + v.desc + '</div></div>' +
+      '<div class="play-icon">▶</div>' +
+    '</div>';
+  }).join('');
+}
+
+function playVideo(id) {
+  var v = videos.find(function(x) { return x.id === id; });
+  if (!v) return;
+
+  // 高亮当前项
+  document.querySelectorAll('.list-item').forEach(function(el) { el.classList.remove('active'); });
+  var item = document.getElementById('item-' + id);
+  if (item) item.classList.add('active');
+
+  // 显示播放器
+  document.getElementById('playerEmpty').style.display = 'none';
+  document.getElementById('playerActive').style.display = 'block';
+  document.getElementById('videoTitle').textContent = v.title;
+  document.getElementById('videoDesc').textContent = v.desc;
+
+  var frameDiv = document.getElementById('videoFrame');
+  if (v.src === 'bilibili') {
+    frameDiv.innerHTML = '<iframe src="https://player.bilibili.com/player.html?bvid=' + v.vid + '&page=1&autoplay=1" allowfullscreen></iframe>';
+  } else if (v.src === 'douyin') {
+    frameDiv.innerHTML = '<iframe src="https://open.douyin.com/player/video?vid=' + v.vid + '&autoplay=1" allowfullscreen></iframe>';
+  }
+}
+
+// 初始化
+renderList();
+</script>
+</body>
+</html>
