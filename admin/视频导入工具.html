@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>视频导入工具 · 文创客栈</title>
+<style>
+  :root{--blue:#1B2A4A;--red:#C41E3A;--cream:#FDF8F0;--border:#D5C8B5;--radius:10px;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:#F0ECE0;color:#2D2D2D;line-height:1.7;padding:20px;}
+  .wrap{max-width:900px;margin:0 auto;}
+  h1{font-size:1.5rem;color:var(--blue);margin-bottom:8px;}
+  .sub{color:#666;margin-bottom:24px;}
+  .card{background:#fff;border-radius:var(--radius);padding:24px;margin-bottom:20px;box-shadow:0 2px 12px rgba(0,0,0,0.05);}
+  .card h3{color:var(--blue);margin-bottom:12px;}
+  textarea{width:100%;height:140px;padding:12px;border:2px solid var(--border);border-radius:8px;font-size:0.9rem;font-family:monospace;resize:vertical;outline:none;}
+  textarea:focus{border-color:var(--blue);}
+  .btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;}
+  .btn{padding:10px 22px;border:none;border-radius:22px;font-size:0.9rem;font-weight:600;cursor:pointer;transition:all 0.2s;}
+  .btn-blue{background:var(--blue);color:#fff;}
+  .btn-blue:hover{opacity:0.9;}
+  .btn-outline{background:#fff;color:var(--blue);border:2px solid var(--blue);}
+  .btn-outline:hover{background:#F0F4FF;}
+  .btn-green{background:#2D7A3A;color:#fff;}
+  .btn-green:hover{opacity:0.9;}
+  .result{background:#F8F9FA;border-radius:8px;padding:16px;font-size:0.85rem;font-family:monospace;white-space:pre-wrap;max-height:400px;overflow-y:auto;display:none;}
+  .result.show{display:block;}
+  .status{font-size:0.85rem;color:#666;margin-top:8px;min-height:20px;}
+  .tag{display:inline-block;padding:3px 10px;border-radius:14px;font-size:0.78rem;font-weight:600;margin:2px;}
+  .tag-bili{background:#FFF0F0;color:var(--red);}
+  .tag-douyin{background:#F0F0FF;color:#2C4270;}
+  .target-select{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;}
+  .target-select label{display:flex;align-items:center;gap:4px;cursor:pointer;padding:6px 14px;border-radius:18px;border:1px solid var(--border);font-size:0.9rem;}
+  .target-select label.active{background:var(--blue);color:#fff;border-color:var(--blue);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>🎬 视频批量导入工具</h1>
+<p class="sub">从 B站 / 抖音 粘贴链接，自动提取视频ID并生成可用的代码</p>
+
+<div class="card">
+  <h3>📋 选择要导入到哪里</h3>
+  <div class="target-select" id="targetSelect">
+    <label class="active"><input type="radio" name="target" value="cases" checked> 💡 素材展示 · 优秀案例</label>
+    <label><input type="radio" name="target" value="tutorials-basics"> 🔰 教程 · PS零基础</label>
+    <label><input type="radio" name="target" value="tutorials-ai"> 🤖 教程 · AI辅助设计</label>
+    <label><input type="radio" name="target" value="tutorials-theory"> 🎨 教程 · 设计基础</label>
+  </div>
+</div>
+
+<div class="card">
+  <h3>🔗 粘贴视频链接（一行一个）</h3>
+  <p style="color:#888;font-size:0.85rem;margin-bottom:8px;">
+    支持格式：<br>
+    B站：<code>https://www.bilibili.com/video/BVxxxxxx</code> 或短链 <code>https://b23.tv/xxxx</code><br>
+    抖音：<code>https://www.douyin.com/video/数字ID</code> 或含 <code>modal_id=数字</code> 的链接<br>
+    ⚠️ 抖音 <code>v.douyin.com/xxx</code> 短链请先在浏览器打开，复制跳转后的长链接
+  </p>
+  <textarea id="urlInput" placeholder="https://www.bilibili.com/video/BV1yT421k7SF
+https://www.bilibili.com/video/BV1ch411m7SS
+https://www.douyin.com/video/7123456789012345678
+..."></textarea>
+  <div class="btn-row">
+    <button class="btn btn-blue" onclick="parseUrls()">🔍 解析链接</button>
+    <button class="btn btn-green" onclick="fetchTitlesAndGen()">📥 自动获取标题并生成代码</button>
+    <button class="btn btn-outline" onclick="genWithoutTitles()">⚡ 不获取标题直接生成</button>
+  </div>
+  <div class="status" id="status"></div>
+</div>
+
+<div class="card" id="resultCard" style="display:none;">
+  <h3>📋 生成的代码</h3>
+  <p style="color:#888;font-size:0.85rem;margin-bottom:8px;">复制下面的代码，替换对应页面的 videos / videoGroups 数组。</p>
+  <div class="result show" id="resultCode"></div>
+  <div class="btn-row" style="margin-top:12px;">
+    <button class="btn btn-blue" onclick="copyResult()">📋 一键复制</button>
+    <button class="btn btn-outline" onclick="showFileHint()">📂 告诉我要粘贴到哪个文件</button>
+  </div>
+  <div id="fileHint" style="margin-top:10px;font-size:0.85rem;color:#666;"></div>
+</div>
+
+<div class="card" id="existingCard">
+  <h3>📖 当前已有视频</h3>
+  <p style="color:#888;font-size:0.85rem;margin-bottom:8px;">避免重复添加，以下是目前已导入的视频：</p>
+  <div id="existingVids" style="font-size:0.85rem;color:#666;"></div>
+</div>
+
+</div>
+
+<script>
+// 目标页面映射
+var targetFiles = {
+  'cases': { file: 'pages/materials.html', varName: 'videos', tab: '优秀案例' },
+  'tutorials-basics': { file: 'pages/tutorials.html', varName: 'videoGroups.basics', tab: 'PS零基础' },
+  'tutorials-ai': { file: 'pages/tutorials.html', varName: 'videoGroups.ai', tab: 'AI辅助设计' },
+  'tutorials-theory': { file: 'pages/tutorials.html', varName: 'videoGroups.theory', tab: '设计基础' },
+};
+
+// 当前已有视频（与页面同步）
+var existingVids = {
+  cases: [
+    {id:'v1',title:'PS 零基础入门教程',src:'bilibili',vid:'BV1yT421k7SF'},
+    {id:'v2',title:'Adobe全家桶介绍',src:'bilibili',vid:'BV1ch411m7SS'},
+    {id:'v3',title:'发一下最近的设计',src:'bilibili',vid:'BV1ei43zrEYv'},
+  ],
+  'tutorials-basics': [
+    {id:'b1',title:'PS 界面与基础操作',src:'bilibili',vid:'BV1yT421k7SF'},
+  ],
+  'tutorials-ai': [],
+  'tutorials-theory': [],
+};
+
+// 显示已有视频
+function showExisting(){
+  var html='';
+  Object.keys(existingVids).forEach(function(k){
+    var vids=existingVids[k]||[];
+    if(vids.length===0)return;
+    html+='<strong>'+targetFiles[k].tab+'</strong> ('+vids.length+'个)：';
+    html+=vids.map(function(v){return '<span class="tag tag-bili">'+v.vid+' '+v.title+'</span>';}).join(' ');
+    html+='<br>';
+  });
+  document.getElementById('existingVids').innerHTML=html||'暂无视频';
+}
+showExisting();
+
+// 目标选择高亮
+document.querySelectorAll('#targetSelect label').forEach(function(l){
+  l.addEventListener('click',function(){
+    document.querySelectorAll('#targetSelect label').forEach(function(x){x.classList.remove('active');});
+    l.classList.add('active');
+  });
+});
+
+var parsedVideos=[];
+
+// 解析URL
+function parseUrls(){
+  var text=document.getElementById('urlInput').value.trim();
+  if(!text){setStatus('请先粘贴链接');return;}
+  var lines=text.split('\n').filter(function(l){return l.trim();});
+  parsedVideos=[];
+  lines.forEach(function(line){
+    line=line.trim();
+    var bvid=extractBvid(line);
+    var douyinId=extractDouyinId(line);
+    if(bvid){parsedVideos.push({src:'bilibili',vid:bvid,title:'',desc:'',thumb:'🎬',url:line});}
+    else if(douyinId==='SHORTLINK'){parsedVideos.push({src:'?',vid:'',title:'',desc:'',thumb:'🎬',url:line,error:'抖音短链接，请先在浏览器打开短链接，把跳转后的长链接复制过来'});}
+    else if(douyinId){parsedVideos.push({src:'douyin',vid:douyinId,title:'',desc:'',thumb:'🎬',url:line});}
+    else {parsedVideos.push({src:'?',vid:'',title:'',desc:'',thumb:'🎬',url:line,error:'无法识别，请确认链接格式：B站含 BV...，抖音含 video/数字 或 modal_id=数字'});}
+  });
+  setStatus('已解析 '+parsedVideos.length+' 个链接：'+
+    parsedVideos.filter(function(v){return v.src==='bilibili'}).length+' 个B站，'+
+    parsedVideos.filter(function(v){return v.src==='douyin'}).length+' 个抖音，'+
+    parsedVideos.filter(function(v){return v.src==='?'}).length+' 个未识别');
+}
+
+function extractBvid(url){
+  var m=url.match(/BV[a-zA-Z0-9]+/);
+  return m?m[0]:null;
+}
+function extractDouyinId(url){
+  // 格式1: douyin.com/video/7123456789...
+  var m=url.match(/video\/(\d+)/);
+  if(m)return m[1];
+  // 格式2: ?modal_id=7123456789... (用户主页/收藏夹)
+  m=url.match(/modal_id=(\d+)/);
+  if(m)return m[1];
+  // 格式3: 短链接 v.douyin.com/xxxx (需要展开，先标记)
+  if(url.match(/v\.douyin\.com\//))return 'SHORTLINK';
+  // 格式4: note_id
+  m=url.match(/note\/(\d+)/);
+  if(m)return m[1];
+  return null;
+}
+
+// 获取B站标题
+function setStatus(msg){document.getElementById('status').textContent=msg;}
+
+async function fetchTitlesAndGen(){
+  if(parsedVideos.length===0){parseUrls();}
+  if(parsedVideos.length===0)return;
+  setStatus('正在获取B站视频标题...');
+  for(var i=0;i<parsedVideos.length;i++){
+    var v=parsedVideos[i];
+    if(v.src==='bilibili' && v.vid && !v.title){
+      try{
+        var resp=await fetch('https://api.bilibili.com/x/web-interface/view?bvid='+v.vid);
+        var data=await resp.json();
+        if(data.code===0){
+          v.title=data.data.title;
+          v.desc='B站 · '+data.data.owner.name;
+          setStatus('已获取 '+(i+1)+'/'+parsedVideos.length+'：'+v.title.substring(0,30)+'...');
+        }
+      }catch(e){setStatus('获取第'+(i+1)+'个标题失败，将使用空标题');}
+    }
+  }
+  genCode();
+}
+
+function genWithoutTitles(){parseUrls();genCode();}
+
+function genCode(){
+  if(parsedVideos.length===0){parseUrls();}
+  if(parsedVideos.length===0)return;
+
+  var target=getTarget();
+  var existing=existingVids[target]||[];
+  var maxId=0;
+  existing.forEach(function(v){
+    var n=parseInt(v.id.replace(/[a-z]/gi,''))||0;
+    if(n>maxId)maxId=n;
+  });
+
+  var lines=[];
+  parsedVideos.forEach(function(v,i){
+    var id=target.substring(0,1)+(maxId+i+1);
+    if(v.src==='?'){
+      lines.push('  // ❌ 无法识别：'+v.url);
+      return;
+    }
+    var title=v.title||'（待填写标题）';
+    var desc=v.desc||'';
+    lines.push('  {id:\''+id+'\',title:\''+title.replace(/'/g,"\\'")+'\',desc:\''+desc.replace(/'/g,"\\'")+'\',src:\''+v.src+'\',vid:\''+v.vid+'\',thumb:\''+v.thumb+'\'},');
+  });
+
+  var targetInfo=targetFiles[target];
+  var existingCode='';
+  if(existing.length>0){
+    existingCode=existing.map(function(v){
+      return '  {id:\''+v.id+'\',title:\''+(v.title||'').replace(/'/g,"\\'")+'\',desc:\''+(v.desc||'').replace(/'/g,"\\'")+'\',src:\''+v.src+'\',vid:\''+v.vid+'\',thumb:\''+(v.thumb||'🎬')+'\'},';
+    }).join('\n');
+  }
+
+  var fullCode='// ====== '+targetInfo.tab+'视频（粘贴到 '+targetInfo.file+' 的 '+(targetInfo.varName.includes('.')?targetInfo.varName:'videos')+' 数组中）======\n';
+  if(targetInfo.varName.includes('.')){
+    fullCode+='// 找到 var videoGroups = { ... }，替换对应的数组内容\n';
+  } else {
+    fullCode+='// 找到 var videos = [ ... ]，替换数组内容\n';
+  }
+  fullCode+='[\n'+existingCode+'\n'+lines.join('\n')+'\n];';
+
+  document.getElementById('resultCode').textContent=fullCode;
+  document.getElementById('resultCard').style.display='block';
+  document.getElementById('resultCode').classList.add('show');
+  document.getElementById('fileHint').textContent='';
+  setStatus('✅ 已生成 '+parsedVideos.length+' 个视频的代码');
+}
+
+function getTarget(){
+  var sel=document.querySelector('input[name="target"]:checked');
+  return sel?sel.value:'cases';
+}
+
+function copyResult(){
+  var text=document.getElementById('resultCode').textContent;
+  navigator.clipboard.writeText(text).then(function(){
+    setStatus('✅ 已复制到剪贴板！');
+  }).catch(function(){
+    setStatus('复制失败，请手动选中代码 Ctrl+C');
+  });
+}
+
+function showFileHint(){
+  var target=getTarget();
+  var info=targetFiles[target];
+  document.getElementById('fileHint').innerHTML=
+    '📂 打开 <strong>'+info.file+'</strong>，用记事本打开，搜索 <code>var '+(info.varName.includes('.')?'videoGroups':'videos')+'</code>，'+
+    '将生成的代码替换对应数组。具体改法见 <a href="../管理员指南-视频嵌入.md" target="_blank">管理员指南-视频嵌入.md</a>';
+}
+</script>
+</body>
+</html>
