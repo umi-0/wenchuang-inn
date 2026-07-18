@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文创客栈 — 数智文创·献礼物电</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preload" as="image" href="images/hero-cover.webp" fetchpriority="high">
+    <script>
+        // 预加载封面大图，加载完成后渐入
+        (function() {
+            var img = new Image();
+            img.onload = function() {
+                document.querySelector('.hero').classList.add('loaded');
+            };
+            img.src = 'images/hero-cover.webp';
+        })();
+    </script>
+</head>
+<body>
+    <!-- ====== 顶部导航 ====== -->
+    <header class="site-header">
+        <div class="header-inner">
+            <a href="#home" class="logo">
+                <span class="logo-icon">🏠</span>
+                <span class="logo-text">文创客栈</span>
+            </a>
+            <nav class="main-nav" id="mainNav">
+                <a href="#software" class="nav-link">🛠 软件区</a>
+                <a href="#tutorials" class="nav-link">📖 教程区</a>
+                <a href="#materials" class="nav-link">🎨 素材区</a>
+                <a href="pages/archive.html" class="nav-link">📂 过往案例</a>
+                <a href="#templates" class="nav-link">📄 模板区</a>
+                <a href="#announcement" class="nav-link nav-highlight">📢 公告</a>
+            </nav>
+            <button class="menu-toggle" id="menuToggle" aria-label="菜单">☰</button>
+        </div>
+    </header>
+
+    <!-- ====== 首屏 Hero ====== -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <span class="hero-icon">🏠</span>
+                文创客栈
+            </h1>
+            <p class="hero-subtitle">「数智文创，献礼物电」暑期社会实践活动 · 官方资源站</p>
+            <p class="hero-desc">设计软件、零基础教程、官方素材、提交模板 — 一站式配齐，助你高效出稿</p>
+            <div class="hero-actions">
+                <a href="#software" class="btn btn-primary">🛠 软件工具</a>
+                <a href="pages/tutorials.html" class="btn btn-primary">📖 教程视频</a>
+                <a href="pages/materials.html" class="btn btn-primary">🎨 素材展示</a>
+                <a href="pages/archive.html" class="btn btn-primary">📂 过往案例</a>
+                <a href="#templates" class="btn btn-primary">📄 提交模板</a>
+                <a href="#announcement" class="btn btn-outline">📢 查看公告</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== 公告区 ====== -->
+    <section class="section" id="announcement">
+        <div class="section-header">
+            <h2 class="section-title">📢 活动公告</h2>
+            <p class="section-desc">关键信息速览</p>
+        </div>
+        <div class="announcement-grid" id="announcementGrid">
+            <!-- JS 动态渲染 -->
+        </div>
+    </section>
+
+    <!-- ====== 软件区 ====== -->
+    <section class="section section-alt" id="software">
+        <div class="section-header">
+            <h2 class="section-title">🛠 软件区</h2>
+            <p class="section-desc">设计工具下载与安装指引</p>
+        </div>
+        <div class="cards-grid" id="softwareGrid">
+            <!-- JS 动态渲染 -->
+        </div>
+    </section>
+
+    <!-- ====== 教程区 ====== -->
+    <section class="section" id="tutorials">
+        <div class="section-header">
+            <h2 class="section-title">📖 教程区</h2>
+            <p class="section-desc">从零开始学设计，按难度分级 · <a href="pages/tutorials.html" style="color:var(--red);font-weight:600;">📺 浏览教程视频 →</a></p>
+        </div>
+        <div class="cards-grid" id="tutorialsGrid">
+            <!-- JS 动态渲染 -->
+        </div>
+    </section>
+
+    <!-- ====== 素材区 ====== -->
+    <section class="section section-alt" id="materials">
+        <div class="section-header">
+            <h2 class="section-title">🎨 素材区</h2>
+            <p class="section-desc">官方素材包 + 优质外部资源推荐</p>
+        </div>
+        <div class="cards-grid" id="materialsGrid">
+            <!-- JS 动态渲染 -->
+        </div>
+    </section>
+
+    <!-- ====== 模板区 ====== -->
+    <section class="section" id="templates">
+        <div class="section-header">
+            <h2 class="section-title">📄 模板区</h2>
+            <p class="section-desc">下载模板，填空即可提交</p>
+        </div>
+        <div class="cards-grid" id="templatesGrid">
+            <!-- JS 动态渲染 -->
+        </div>
+    </section>
+
+    <!-- ====== 零基础上手路线 ====== -->
+    <section class="section section-alt" id="roadmap">
+        <div class="section-header">
+            <h2 class="section-title">🗺 零基础上手路线</h2>
+            <p class="section-desc">第一次做设计？跟着走就行</p>
+        </div>
+        <div class="roadmap" id="roadmapSteps">
+            <!-- JS 动态渲染 -->
+        </div>
+    </section>
+
+    <!-- ====== 页脚 ====== -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-col">
+                <h4>📧 投稿邮箱</h4>
+                <p><a href="mailto:1279203601@qq.com">1279203601@qq.com</a></p>
+            </div>
+            <div class="footer-col">
+                <h4>⚠️ AI 使用规范</h4>
+                <p>鼓励 AI 辅助，禁止 AI 一键出图。PSD 中须保留人工操作痕迹。</p>
+            </div>
+            <div class="footer-col">
+                <h4>🔄 内容更新</h4>
+                <p>资源持续补充中，定期回来看看</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 文创客栈 · 「数智文创，献礼物电」暑期社会实践 · <a href="admin.html" style="color:rgba(255,255,255,0.4);">管理</a></p>
+        </div>
+    </footer>
+
+    <!-- 卡片详情弹窗 -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-card" id="modalCard">
+            <button class="modal-close" id="modalClose">✕</button>
+            <div class="modal-content" id="modalContent">
+                <!-- JS 动态填充 -->
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
