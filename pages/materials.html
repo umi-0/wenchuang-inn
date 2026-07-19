@@ -7,7 +7,7 @@
 <style>
   :root { --blue:#1B2A4A; --red:#C41E3A; --cream:#FDF8F0; --white:#fff; --text:#2D2D2D; --text-secondary:#5A5A5A; --border:#E0D5C5; --gold:#C9A96E; --radius:12px; --shadow:0 2px 12px rgba(27,42,74,0.06); }
   *{margin:0;padding:0;box-sizing:border-box;}
-  body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--cream);color:var(--text);line-height:1.7;}
+  body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--cream);color:var(--text);line-height:1.7;touch-action:manipulation;}
   .topbar{position:sticky;top:0;z-index:100;background:var(--blue);color:#fff;padding:12px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
   .topbar a{color:#fff;text-decoration:none;font-weight:600;}
   .topbar a:hover{opacity:0.8;}
@@ -78,12 +78,12 @@
   <p style="color:var(--text-secondary);margin-bottom:4px;">浏览优秀案例、学院建筑、学科符号、配色方案、字体推荐。视频可直接播放。</p>
 
   <div class="tab-nav">
-    <button class="active" onclick="switchTab('cases')">💡 优秀案例</button>
-    <button onclick="switchTab('photos')">📸 学院建筑</button>
-    <button onclick="switchTab('symbols')">⚡ 学科符号</button>
-    <button onclick="switchTab('patterns')">🏮 纹样素材</button>
-    <button onclick="switchTab('colors')">🎨 配色方案</button>
-    <button onclick="switchTab('fonts')">🔤 字体推荐</button>
+    <button class="active" onclick="switchTab('cases', event)">💡 优秀案例</button>
+    <button onclick="switchTab('photos', event)">📸 学院建筑</button>
+    <button onclick="switchTab('symbols', event)">⚡ 学科符号</button>
+    <button onclick="switchTab('patterns', event)">🏮 纹样素材</button>
+    <button onclick="switchTab('colors', event)">🎨 配色方案</button>
+    <button onclick="switchTab('fonts', event)">🔤 字体推荐</button>
   </div>
 
   <!-- ====== 优秀案例 ====== -->
@@ -374,17 +374,17 @@
 
 <script>
 // ====== Tab 切换 ======
-function switchTab(name) {
+function switchTab(name, e) {
   document.querySelectorAll('.tab-nav button').forEach(function(b){b.classList.remove('active');});
   document.querySelectorAll('.tab-content').forEach(function(c){c.classList.remove('active');});
   var tab = document.getElementById('tab-' + name);
   if(tab) tab.classList.add('active');
-  // 高亮对应按钮
+  // 高亮对应按钮（兼容移动端无全局 event）
   var btns = document.querySelectorAll('.tab-nav button');
   btns.forEach(function(b){
     if (b.textContent.indexOf(getTabLabel(name)) !== -1) b.classList.add('active');
   });
-  if (event && event.target) event.target.classList.add('active');
+  if (e && e.target) e.target.classList.add('active');
   // 更新 URL hash
   if (window.location.hash !== '#' + name) {
     history.replaceState(null, '', '#' + name);

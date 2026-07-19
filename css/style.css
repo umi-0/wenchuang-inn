@@ -38,10 +38,14 @@ body {
     background: var(--cream);
     line-height: 1.7;
     -webkit-font-smoothing: antialiased;
+    /* 移动端触摸优化：消除 300ms 延迟，防止双击缩放 */
+    touch-action: manipulation;
 }
 
 a { color: var(--blue); text-decoration: none; transition: color var(--transition); }
 a:hover { color: var(--red); }
+/* 移动端：确保链接和按钮可触摸 */
+a, button, .card, .nav-link, .roadmap-step { touch-action: manipulation; }
 
 img { max-width: 100%; height: auto; display: block; }
 
@@ -53,6 +57,9 @@ img { max-width: 100%; height: auto; display: block; }
     -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
     padding: 0 20px;
+    /* iOS Safari 兼容：确保 sticky + backdrop-filter 正常渲染 */
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
 }
 
 .header-inner {

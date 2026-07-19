@@ -13,15 +13,26 @@
   function tryLoadJSON() {
     try {
       var xhr = new XMLHttpRequest();
-      xhr.open('GET', 'data/content.json', false);  // 同步请求兼容本地
+      xhr.open('GET', 'data/content.json', true);  // 异步请求，不阻塞页面（移动端友好）
+      xhr.onload = function() {
+        if (xhr.status === 200) {
+          try {
+            var newData = JSON.parse(xhr.responseText);
+            if (newData && newData.sections) {
+              siteData = newData;
+              renderAll();  // 用线上数据重新渲染
+            }
+          } catch(e) {}
+        }
+      };
+      xhr.onerror = function() {};
       xhr.send();
-      if (xhr.status === 200) {
-        siteData = JSON.parse(xhr.responseText);
-      }
     } catch(e) {
-      // 使用内嵌数据
+      // 使用内嵌数据，已在下面 renderAll() 中处理
     }
   }
+  // 先用内嵌数据立刻渲染（不等待网络），异步加载成功后会自动更新
+  renderAll();
   tryLoadJSON();
 
   // ====== DOM 引用 ======
@@ -245,18 +256,24 @@
     return 'tag-tool';
   }
 
-  // ====== 事件绑定 ======
-  menuToggle.addEventListener('click', function() { mainNav.classList.toggle('open'); });
-
-  var navLinks = mainNav.querySelectorAll('a');
-  for (var i = 0; i < navLinks.length; i++) {
-    navLinks[i].addEventListener('click', function() { mainNav.classList.remove('open'); });
+  // ====== 事件绑定（添加 null 安全检查，兼容不同页面） ======
+  if (menuToggle) {
+    menuToggle.addEventListener('click', function() { mainNav.classList.toggle('open'); });
   }
 
-  modalClose.addEventListener('click', closeModal);
-  modalOverlay.addEventListener('click', function(e) { if (e.target === modalOverlay) closeModal(); });
+  if (mainNav) {
+    var navLinks = mainNav.querySelectorAll('a');
+    for (var i = 0; i < navLinks.length; i++) {
+      navLinks[i].addEventListener('click', function() { mainNav.classList.remove('open'); });
+    }
+  }
+
+  if (modalClose) {
+    modalClose.addEventListener('click', closeModal);
+  }
+  if (modalOverlay) {
+    modalOverlay.addEventListener('click', function(e) { if (e.target === modalOverlay) closeModal(); });
+  }
   document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeModal(); });
 
-  // ====== 启动 ======
-  renderAll();
 })();
