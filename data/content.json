@@ -72,6 +72,50 @@
           "downloadUrl": ""
         },
         {
+          "id": "illustrator",
+          "icon": "✏️",
+          "title": "Adobe Illustrator",
+          "type": "software",
+          "description": "矢量图形设计软件，做 Logo、徽章、图标的必备工具。与 PS 配合使用效果最佳。",
+          "tags": ["推荐", "矢量"],
+          "details": "矢量格式，无限缩放不失真\n特别适合徽章、钥匙扣等需要精确线条的产品\n可与 PS 联动：AI 画矢量 → PS 做效果",
+          "externalUrl": "https://www.adobe.com/cn/products/illustrator.html",
+          "downloadUrl": ""
+        },
+        {
+          "id": "indesign",
+          "icon": "📰",
+          "title": "Adobe InDesign",
+          "type": "software",
+          "description": "专业排版软件。如果你做文件夹、书签等多页或多版面设计，InDesign 比 PS 更好用。",
+          "tags": ["排版"],
+          "details": "专业排版工具，适合多页/多版面设计\n做文件夹展开图时比 PS 更方便\n可输出印刷厂直接用的 PDF",
+          "externalUrl": "https://www.adobe.com/cn/products/indesign.html",
+          "downloadUrl": ""
+        },
+        {
+          "id": "lightroom",
+          "icon": "📷",
+          "title": "Adobe Lightroom",
+          "type": "software",
+          "description": "照片调色和管理工具。如果你用自己拍的照片做素材，Lightroom 能快速调出理想色调。",
+          "tags": ["照片", "调色"],
+          "details": "照片调色专用工具\n批量处理照片效率高\n调好的照片可导入 PS 继续设计",
+          "externalUrl": "https://www.adobe.com/cn/products/photoshop-lightroom.html",
+          "downloadUrl": ""
+        },
+        {
+          "id": "csp",
+          "icon": "🎨",
+          "title": "Clip Studio Paint",
+          "type": "software",
+          "description": "漫画/插画神器，手绘感极佳。支持 PSD 导出，适合想要手绘风格文创设计的同学。",
+          "tags": ["推荐", "手绘"],
+          "details": "业界标准的漫画/插画软件\n笔触自然，适合手绘风格设计\n支持 PSD 格式导出\n有免费试用版",
+          "externalUrl": "https://www.clipstudio.net/",
+          "downloadUrl": ""
+        },
+        {
           "id": "canva",
           "icon": "📐",
           "title": "Canva 可画",
@@ -336,10 +380,10 @@
           "icon": "💡",
           "title": "优秀案例参考",
           "type": "reference",
-          "description": "往届及同类文创设计参考，仅供启发思路，禁止直接复制。",
+          "description": "往届及同类文创设计参考，仅供启发思路，禁止直接复制。点击浏览图文和视频案例。",
           "tags": ["参考", "灵感"],
           "downloadUrl": "",
-          "externalUrl": "pages/cases.html"
+          "externalUrl": "pages/materials.html"
         },
         {
           "id": "unsplash",
@@ -390,35 +434,35 @@
         {
           "id": "design-doc",
           "icon": "📝",
-          "title": "设计说明文档模板",
+          "title": "文创设计投稿文件包",
           "type": "template",
-          "description": "包含基本信息、设计理念（≥150字）、使用元素说明、AI 工具使用说明。复制到 Word 填写即可。",
+          "description": "面向零基础的统一提交模板。含基本信息、产品类型（可多选）、工艺偏好、设计理念、使用元素、AI说明、自查清单、修改记录。",
           "tags": ["模板", "必交"],
-          "details": "模板包含以下板块：\n1. 基本信息（姓名、学号、班级、作品名称、产品类型、尺寸）\n2. 设计理念（≥150 字）\n3. 使用元素说明表格\n4. AI 工具使用说明\n\n⚠️ 请如实填写，隐瞒 AI 使用或全量 AI 生成 = 违规。",
+          "details": "模板包含 7 个 Part：\n1. 基本信息\n2. 产品类型（6选多）+ 工艺偏好\n3. 设计理念（≥150 字）\n4. 使用元素清单\n5. AI 工具使用说明\n6. 提交前自查（含生产可行性检查）\n7. 修改记录（打回后填写）\n\n⚠️ 面向零基础，每项都有解释。复制到 Word 填写。",
           "downloadUrl": "files/【提交模板】文创设计投稿文件包.docx",
-          "externalUrl": ""
+          "externalUrl": "pages/materials.html#photos"
         },
         {
           "id": "naming-guide",
           "icon": "📋",
           "title": "文件命名与打包说明",
           "type": "template",
-          "description": "手把手教你命名文件、打包压缩、写邮件。照做即可，避免格式错误被退回。",
+          "description": "手把手教你命名文件、打包压缩、写邮件。含正确和错误示范对照，避免格式错误被退回。",
           "tags": ["模板", "必看"],
           "details": "核心规范：\n• 三个文件统一命名：专业班级+姓名+学号\n• 压缩包命名：专业班级+姓名+学号.zip\n• 邮件主题：【文创投稿】专业班级+姓名+学号\n• 收件人：1279203601@qq.com",
           "downloadUrl": "files/【提交模板】文件命名与打包说明.docx",
-          "externalUrl": ""
+          "externalUrl": "pages/materials.html#symbols"
         },
         {
           "id": "checklist",
           "icon": "✅",
           "title": "提交前自查清单",
           "type": "template",
-          "description": "打包前逐条核对：文件完整性、命名规范、效果图、PSD 图层、设计说明、邮件。全部打勾才能发！",
+          "description": "8 大类逐项检查：文件完整性、命名、效果图、PSD图层、生产可行性、设计说明、邮件、红线。面向零基础，每项有解释。",
           "tags": ["模板", "必用"],
-          "details": "六大检查项：\n📁 文件完整性（3 个文件齐全）\n📝 命名检查（统一格式）\n🖼 效果图检查（JPG/PNG，≥300dpi）\n🧩 PSD 图层检查（未合并、有人工痕迹）\n📝 设计说明检查（≥150字）\n✉️ 邮件检查（收件人、主题、附件）",
+          "details": "八大检查项：\n📁 文件完整性\n📝 命名规范\n🖼 效果图\n🧩 PSD 源文件\n🏭 生产可行性（线条粗细、安全边距、颜色数等）\n📝 设计说明\n✉️ 邮件\n🚫 红线\n\n全部打勾才能发邮件！",
           "downloadUrl": "files/【提交模板】提交前自查清单.docx",
-          "externalUrl": ""
+          "externalUrl": "pages/materials.html#colors"
         }
       ]
     }
