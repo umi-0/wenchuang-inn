@@ -124,9 +124,24 @@ img { max-width: 100%; height: auto; display: block; }
 
 .hero-content { position: relative; z-index: 1; max-width: 700px; margin: 0 auto; }
 .hero-icon { font-size: 3rem; display: block; margin-bottom: 12px; }
-.hero-title { font-size: 2.8rem; font-weight: 800; margin-bottom: 12px; letter-spacing: 2px; }
-.hero-subtitle { font-size: 1.2rem; opacity: 0.9; margin-bottom: 8px; }
-.hero-desc { font-size: 1rem; opacity: 0.75; margin-bottom: 28px; }
+.hero-title {
+    font-size: 2.8rem; font-weight: 800; margin-bottom: 12px; letter-spacing: 2px;
+    -webkit-text-stroke: 1.5px rgba(0,0,0,0.55); text-stroke: 1.5px rgba(0,0,0,0.55);
+    text-shadow: 0 0 4px rgba(0,0,0,0.3), 0 2px 6px rgba(0,0,0,0.25);
+    paint-order: stroke fill;
+}
+.hero-subtitle {
+    font-size: 1.2rem; opacity: 0.9; margin-bottom: 8px;
+    -webkit-text-stroke: 0.8px rgba(0,0,0,0.4); text-stroke: 0.8px rgba(0,0,0,0.4);
+    text-shadow: 0 0 3px rgba(0,0,0,0.2), 0 1px 3px rgba(0,0,0,0.15);
+    paint-order: stroke fill;
+}
+.hero-desc {
+    font-size: 1rem; opacity: 0.75; margin-bottom: 28px;
+    -webkit-text-stroke: 0.6px rgba(0,0,0,0.35); text-stroke: 0.6px rgba(0,0,0,0.35);
+    text-shadow: 0 0 2px rgba(0,0,0,0.18), 0 1px 2px rgba(0,0,0,0.12);
+    paint-order: stroke fill;
+}
 
 .hero-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
 
