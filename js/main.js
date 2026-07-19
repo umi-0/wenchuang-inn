@@ -11,7 +11,6 @@
 
   // ====== 页面使用内嵌权威数据直接渲染，不再异步加载 content.json 覆盖 ====
   // content.json 仅用于管理员后台编辑；主页依赖内嵌 siteData 保证 100% 稳定
-  renderAll();
 
   // ====== DOM 引用 ======
   var $ = function(sel) { return document.querySelector(sel); };
@@ -233,6 +232,15 @@
     if (t.indexOf('模板') !== -1 || t.indexOf('提交') !== -1) return 'tag-template';
     return 'tag-tool';
   }
+
+  // ====== 执行渲染 ======
+  console.log('[文创客栈] siteData loaded, sections:', Object.keys(siteData.sections).join(', '));
+  renderAll();
+  console.log('[文创客栈] renderAll() done. Checking grids...');
+  ['softwareGrid','tutorialsGrid','materialsGrid','templatesGrid','announcementGrid','roadmapSteps'].forEach(function(id){
+    var el = document.getElementById(id);
+    console.log('[文创客栈]   ' + id + ': ' + (el ? (el.children.length + ' children, ' + el.innerHTML.length + ' chars') : 'NOT FOUND'));
+  });
 
   // ====== 事件绑定（添加 null 安全检查，兼容不同页面） ======
   if (menuToggle) {
