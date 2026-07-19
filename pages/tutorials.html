@@ -24,13 +24,9 @@
 
   .case-layout{display:grid;grid-template-columns:1fr 320px;gap:16px;}
   @media(max-width:900px){.case-layout{grid-template-columns:1fr;}
-    .list-panel{flex-direction:row;flex-wrap:wrap;gap:4px;}
-    .list-panel h3{width:100%;font-size:0.85rem;margin-bottom:0;padding-bottom:4px;}
-    .list-item{flex:1 1 auto;min-width:130px;padding:7px 8px;gap:5px;border-width:1px;border-radius:6px;}
-    .list-item .thumb{width:26px;height:20px;border-radius:3px;font-size:0.75rem;}
-    .list-item .info h4{font-size:0.76rem;}
-    .list-item .info .src{font-size:0.66rem;}
-    .list-item .play-icon{font-size:0.7rem;}
+    .list-panel{flex-direction:row;flex-wrap:wrap;gap:6px;}
+    .list-panel h3{width:100%;}
+    .list-item{flex:1;min-width:140px;}
   }
   .player-panel{background:var(--white);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);}
   .player-wrap{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;background:#000;}
